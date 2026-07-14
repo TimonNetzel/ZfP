@@ -1,0 +1,1655 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PHT 13.1 – Interaktives Halbjahresskript: Zerstörungsfreie Werkstoffprüfung</title>
+  <style>
+    :root{
+      --bg:#0b1020; --bg2:#080d1a; --panel:#121a2e; --panel2:#18223a; --ink:#e8f0ff; --muted:#a7b4ce;
+      --accent:#00d5ff; --accent2:#7c3cff; --good:#5eead4; --warn:#facc15; --bad:#fb7185; --line:rgba(255,255,255,.14);
+      --shadow:0 24px 70px rgba(0,0,0,.35); --radius:22px; --paper:#f8fbff; --paperInk:#101828;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,"Noto Sans",sans-serif;background:radial-gradient(circle at top left,rgba(0,213,255,.16),transparent 34rem),radial-gradient(circle at 85% 8%,rgba(124,60,255,.22),transparent 30rem),linear-gradient(180deg,#080d1a 0%,var(--bg) 45%,#070b15 100%);color:var(--ink);line-height:1.55}
+    a{color:#8be9ff;text-decoration:none} a:hover{text-decoration:underline}
+    .wrap{width:min(1220px,calc(100% - 32px));margin:auto}
+    header.hero{padding:44px 0 24px;position:relative;overflow:hidden}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:26px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:850;letter-spacing:.02em}
+    .brand-mark{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 38px rgba(0,213,255,.42);display:grid;place-items:center;color:#06101c;font-weight:950}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:stretch}
+    .hero-card,.dark-card,.chapter,.toc-panel{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);backdrop-filter:blur(10px)}
+    .hero-card{padding:26px}
+    h1{font-size:clamp(2.05rem,5vw,4.6rem);line-height:.96;margin:0;letter-spacing:-.06em}
+    h2{font-size:clamp(1.45rem,3vw,2.4rem);margin:0 0 12px;letter-spacing:-.03em}
+    h3{font-size:clamp(1.3rem,2.4vw,2rem);margin:0 0 8px;letter-spacing:-.025em}
+    h4{margin:.2rem 0 .5rem;font-size:1.05rem}
+    p{margin:.45rem 0}
+    .lead{font-size:clamp(1.05rem,1.7vw,1.28rem);color:var(--muted);max-width:850px;margin-top:18px}
+    .pillbar,.tagrow,.toolchips{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
+    .pill,.tag,.toolchip,.week-badge{border:1px solid var(--line);background:rgba(255,255,255,.055);padding:8px 12px;border-radius:999px;color:var(--muted);font-size:.9rem;backdrop-filter:blur(10px)}
+    .toolchip{color:#e8f0ff;background:rgba(0,213,255,.10);border-color:rgba(0,213,255,.32);font-weight:800}
+    .metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+    .metric{background:rgba(4,10,24,.56);border:1px solid var(--line);border-radius:18px;padding:14px}
+    .metric b{display:block;font-size:1.35rem;color:white}
+    .metric span{color:var(--muted);font-size:.86rem}
+    .signal{display:grid;place-items:center;min-height:310px;overflow:hidden}
+    .signal svg{width:100%;max-width:460px;filter:drop-shadow(0 18px 36px rgba(0,0,0,.35))}
+    nav.quick{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(8,13,26,.78);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    nav.quick .wrap{display:flex;gap:8px;padding:10px 0;overflow:auto;align-items:center}
+    .btn,button{appearance:none;border:1px solid var(--line);color:var(--ink);background:rgba(255,255,255,.065);border-radius:999px;padding:10px 14px;cursor:pointer;font-weight:750;transition:.18s transform,.18s background,.18s border-color;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;font:inherit}
+    .btn:hover,button:hover{transform:translateY(-1px);border-color:rgba(0,213,255,.55);background:rgba(0,213,255,.12);text-decoration:none}
+    .btn.primary,button.primary{background:linear-gradient(135deg,rgba(0,213,255,.92),rgba(124,60,255,.9));color:#06101c;border:none}
+    section.block{padding:38px 0}
+    .section-head{display:flex;justify-content:space-between;gap:16px;align-items:end;margin-bottom:18px}
+    .section-head p{color:var(--muted);max-width:800px}
+    .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    input,select,textarea{background:#071022;color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font:inherit;outline:none}
+    textarea{min-height:110px;resize:vertical}
+    input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(0,213,255,.12)}
+    .search{min-width:min(360px,100%)}
+    .toc-panel{padding:22px}
+    .toc-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .toc-card{background:rgba(255,255,255,.055);border:1px solid var(--line);border-radius:18px;padding:14px;color:var(--ink);display:grid;gap:6px;min-height:126px}
+    .toc-card:hover{border-color:rgba(0,213,255,.5);text-decoration:none;background:rgba(0,213,255,.08)}
+    .toc-card span{color:var(--good);font-size:.82rem;font-weight:850}
+    .toc-card small{color:var(--muted)}
+    .progress-panel{margin-top:16px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;background:rgba(4,10,24,.50);border:1px solid var(--line);border-radius:18px;padding:14px}
+    .bar{height:12px;background:#071022;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+    .bar > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .2s}
+    .script-stack{display:grid;gap:24px}
+    .chapter{padding:20px;scroll-margin-top:86px}
+    .chapter-head{display:flex;align-items:start;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:16px}
+    .week-badge{display:inline-flex;margin:0 0 10px;color:#071022;background:linear-gradient(135deg,#d8f8ff,#d9d0ff);font-weight:900;border:none}
+    .chapter-head p{color:var(--muted)}
+    .progress-toggle{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-weight:800;white-space:nowrap}
+    .progress-toggle input,.checkline input{accent-color:#00d5ff;width:20px;height:20px}
+    .chapter-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+    .learn-box,.script-section,.chapter-check{background:rgba(255,255,255,.055);border:1px solid var(--line);border-radius:18px;padding:14px;margin:12px 0}
+    .learn-box ul,.script-section ul{margin:.35rem 0 .2rem 1.1rem;color:var(--muted)}
+    .learn-box li,.script-section li{margin:.25rem 0}
+    .problem{border-color:rgba(250,204,21,.28);background:rgba(250,204,21,.07)}
+    .memory{border-left:5px solid var(--accent);background:rgba(0,213,255,.09);border-radius:16px;padding:13px 14px;margin:14px 0;color:#e9fbff}
+    .example{border-color:rgba(94,234,212,.25);background:rgba(94,234,212,.065)}
+    .action-box{border-color:rgba(124,60,255,.32);background:rgba(124,60,255,.08)}
+    .error-box{border-color:rgba(251,113,133,.30);background:rgba(251,113,133,.07)}
+    .summary-box{border-color:rgba(94,234,212,.30);background:rgba(94,234,212,.06)}
+    .tag{font-size:.78rem;color:#dbeafe;background:rgba(255,255,255,.07)}
+    .exercise-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .exercise-card{background:#f8fbff;color:#1e293b;border:1px solid #d8e3f2;border-radius:16px;padding:12px;box-shadow:0 12px 24px rgba(15,23,42,.07)}
+    .exercise-card p,.exercise-card li{color:#334155}
+    .exercise-type{font-size:.75rem;font-weight:900;color:#042f3a;background:#d8f8ff;border:1px solid #a8eefc;border-radius:999px;padding:4px 8px;display:inline-flex;margin-bottom:6px}
+    details.hint,details.solution,details.exit-ticket{border:1px solid #d8e3f2;border-radius:12px;margin:8px 0;background:white;overflow:hidden}
+    details.hint summary,details.solution summary,details.exit-ticket summary{cursor:pointer;font-weight:850;padding:9px 11px;color:#0f172a}
+    details.hint p,details.solution p,details.exit-ticket p{padding:0 11px 10px;margin:0;color:#334155}
+    details.solution{border-color:#a7f3d0;background:#f0fdfa}
+    .chapter-check{border-color:rgba(0,213,255,.32);background:rgba(0,213,255,.07)}
+    .answers{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+    .answers button{justify-content:flex-start;text-align:left;white-space:normal;border-radius:14px}
+    .feedback{min-height:26px;margin-top:10px;font-weight:850}
+    .feedback.ok{color:var(--good)} .feedback.no{color:var(--bad)}
+    .chapter-source{color:var(--muted);font-size:.92rem}
+    .tool-grid{display:grid;grid-template-columns:1fr;gap:18px}
+    .tool-card{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow);scroll-margin-top:86px}
+    .tool-card p,.tool-card li{color:var(--muted)}
+    .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+    .tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#04111e;border:0}
+    .tab-panel{display:none} .tab-panel.active{display:block}
+    .form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:12px 0}
+    label{display:grid;gap:6px;color:var(--muted);font-weight:750;font-size:.92rem}
+    .result{margin-top:12px;border:1px solid rgba(0,213,255,.35);background:rgba(0,213,255,.08);border-radius:16px;padding:14px;color:#e6fbff;min-height:54px}
+    canvas{width:100%;max-width:100%;background:#071022;border:1px solid var(--line);border-radius:18px;margin-top:12px}
+    .formula{display:inline-block;font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-weight:700;letter-spacing:.01em;padding:.06em .30em;border-radius:.45em;background:rgba(0,213,255,.10);border:1px solid rgba(0,213,255,.22);color:inherit;white-space:nowrap;max-width:100%;overflow-x:auto;vertical-align:middle}
+    .exercise-card .formula,details .formula{background:#eef8ff;border-color:#cdeef8;color:#0f172a}
+    .result .formula,.dark-card .formula,.tool-card .formula,.quiz-card .formula,.compare .formula{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);color:inherit}
+    .formula math{font-family:"Cambria Math","STIX Two Math","STIXGeneral","Times New Roman",serif;font-size:1.08em}
+    .compare{width:100%;border-collapse:collapse;overflow:hidden;border-radius:18px;background:rgba(255,255,255,.05)}
+    .compare th,.compare td{padding:12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+    .compare th{color:white;background:rgba(255,255,255,.08)} .compare td{color:var(--muted)}
+    .quiz-grid,.glossary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .quiz-card,.term{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:18px;padding:14px}
+    .quiz-card h4,.term b{color:white}
+    .term span,.quiz-card p{color:var(--muted)}
+    .source-list{columns:2;column-gap:28px;color:var(--muted)} .source-list li{break-inside:avoid;margin:0 0 10px}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#071022;border:1px solid var(--line);border-radius:8px;padding:.1rem .35rem;color:#dbeafe}
+    footer{padding:30px 0 50px;color:var(--muted)}
+    .hidden{display:none!important}
+    @media (max-width:1000px){.hero-grid,.chapter-grid{grid-template-columns:1fr}.toc-grid,.quiz-grid,.glossary{grid-template-columns:repeat(2,minmax(0,1fr))}.exercise-grid,.form-grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:680px){.wrap{width:min(100% - 20px,1220px)}.hero-card,.chapter,.toc-panel,.tool-card{padding:14px;border-radius:20px}.section-head,.chapter-head,.progress-panel{display:block}.toc-grid,.exercise-grid,.form-grid,.quiz-grid,.glossary,.metric-grid{grid-template-columns:1fr}h1{letter-spacing:-.04em}.progress-toggle{margin-top:10px}}
+    @media print{
+      :root{--ink:#111827;--muted:#334155;--line:#cbd5e1}
+      body{background:white;color:#111827;font-size:11pt}
+      nav.quick,.controls,.interactive-note,.tabs,.print-hide,button:not(.print-keep){display:none!important}
+      .wrap{width:100%;margin:0}
+      header.hero,section.block{padding:0 0 14mm}
+      .hero-grid,.chapter-grid,.exercise-grid,.form-grid,.quiz-grid,.glossary,.toc-grid{grid-template-columns:1fr!important}
+      .hero-card,.dark-card,.chapter,.toc-panel,.tool-card,.learn-box,.script-section,.chapter-check,.quiz-card,.term{background:white!important;color:#111827!important;box-shadow:none!important;border:1px solid #cbd5e1!important;break-inside:avoid}
+      .hero-card.signal{display:none!important}
+      .pill,.tag,.toolchip,.week-badge{border:1px solid #cbd5e1!important;background:#f8fafc!important;color:#111827!important}
+      a{color:#111827;text-decoration:none}
+      .chapter{page-break-before:always;scroll-margin-top:0}
+      .chapter-head{border-bottom:2px solid #cbd5e1}
+      .exercise-card{background:#f8fafc!important;box-shadow:none!important}
+      details.hint,details.solution,details.exit-ticket{background:white!important;border:1px solid #cbd5e1!important}
+      .result,canvas{border:1px solid #cbd5e1!important;background:white!important;color:#111827!important}
+      .compare th{background:#e2e8f0!important;color:#111827!important} .compare td{color:#111827!important}
+      .source-list{columns:1}
+      .formula{border:1px solid #cbd5e1!important;background:#f8fafc!important;color:#111827!important}
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" id="top">
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand"><span class="brand-mark">PHT</span><span>Physiktechnik · 13.1 · Skript-App</span></div>
+        <a class="btn" href="#quellen">Quellen</a>
+      </div>
+      <div class="hero-grid">
+        <div class="hero-card">
+          <h1>Halbjahresskript<br>Zerstörungsfreie Werkstoffprüfung</h1>
+          <p class="lead">Ein ausführliches, interaktives Skript für Physiktechnik im Kurshalbjahr 13.1: Ultraschalltechnik, Winkelprüfung, Laserinterferenz, Michelson-Interferometer, Messauswertung und Transfer.</p>
+          <div class="pillbar" aria-label="Eckdaten">
+            <span class="pill">Berufskolleg NRW · Anlage C/FHR, soweit aus der DJP erkennbar</span>
+            <span class="pill">Zielgruppe: Klasse 13</span>
+            <span class="pill">Fach: Physiktechnik</span>
+            <span class="pill">Offline nutzbar · eine HTML-Datei</span>
+            <span class="pill">Druckansicht enthalten</span>
+          </div>
+          <div class="metric-grid">
+            <div class="metric"><b>17</b><span>Kapitel aus den Stationen</span></div>
+            <div class="metric"><b>50+</b><span>Aufgaben mit Hilfen</span></div>
+            <div class="metric"><b>7</b><span>Rechner & Simulationen</span></div>
+          </div>
+          <div class="learn-box" style="margin-top:18px">
+            <h4>So benutzt du dieses Skript</h4>
+            <p>Arbeite kapitelweise: erst Problemfrage, dann Grundwissen, Beispiel, Aufgaben und Selbstcheck. Hilfen und Lösungen sind einklappbar. Die Rechner und Simulationen dienen nicht als Dekoration, sondern zum Ausprobieren der Formeln und Messideen. Für den Ausdruck öffnet die Datei automatisch Hilfen und Lösungen.</p>
+          </div>
+        </div>
+        <div class="hero-card signal" aria-label="Signalbild Ultraschall und Interferenz">
+          <svg viewBox="0 0 520 360" role="img" aria-label="Schema mit Ultraschall-Echos und Interferenzkurve">
+            <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#00d5ff"/><stop offset="1" stop-color="#7c3cff"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+            <rect x="24" y="30" width="472" height="292" rx="28" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.18)"/>
+            <path d="M70 262 L458 262 M70 80 L70 262" stroke="rgba(255,255,255,.25)" stroke-width="2"/>
+            <path d="M76 258 C96 258,92 108,112 108 C132 108,128 258,148 258 C186 258,184 194,204 194 C224 194,220 258,250 258 C292 258,292 132,318 132 C344 132,338 258,374 258 C402 258,402 214,422 214 C442 214,438 258,456 258" fill="none" stroke="url(#g)" stroke-width="5" filter="url(#glow)"/>
+            <text x="76" y="72" fill="#e8f0ff" font-size="18" font-weight="800">A-Bild + Interferenz</text>
+            <text x="80" y="295" fill="#a7b4ce" font-size="14">Start</text><text x="250" y="295" fill="#a7b4ce" font-size="14">Anzeige</text><text x="366" y="295" fill="#a7b4ce" font-size="14">Rückwand</text>
+            <g transform="translate(315 62)"><path d="M0 0 C16 26,32 -26,48 0 S80 26,96 0 S128 -26,144 0" fill="none" stroke="#5eead4" stroke-width="3"/><text x="0" y="42" fill="#a7b4ce" font-size="13">helle/dunkle Fransen</text></g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </header>
+  <nav class="quick" aria-label="Schnellnavigation">
+    <div class="wrap">
+      <a class="btn" href="#uebersicht">Inhalt</a>
+      <a class="btn" href="#kapitel">Kapitel</a>
+      <a class="btn" href="#tools">Rechner</a>
+      <a class="btn" href="#vergleich">Vergleich</a>
+      <a class="btn" href="#abschlussquiz">Quiz</a>
+      <a class="btn" href="#glossar">Glossar</a>
+      <a class="btn" href="#quellen">Quellen</a>
+    </div>
+  </nav>
+  <main>
+    <section class="block" id="uebersicht">
+      <div class="wrap">
+        <div class="section-head">
+          <div><h2>Inhaltsübersicht und Lernpfad</h2><p>Alle Stationen der Landkarte wurden zu Kapiteln erweitert. Springe direkt zu einem Thema oder arbeite der Reihe nach.</p></div>
+          <div class="controls"><input class="search" id="chapterSearch" type="search" placeholder="Kapitel suchen … z. B. Michelson, Kopplung, Winkel"/><button id="openAllDetails">Alle Hilfen öffnen</button><button id="closeAllDetails">Alle Hilfen schließen</button></div>
+        </div>
+        <div class="toc-panel">
+          <div class="toc-grid"><a class="toc-card" href="#kap1"><span>Woche 1</span><b>1. Warum zerstörungsfrei prüfen?</b><small>Vom Prüfproblem zur sinnvollen Prüffrage.</small></a><a class="toc-card" href="#kap2"><span>Woche 1–2</span><b>2. Wellen-Minimum: Frequenz, Wellenlänge, Schallgeschwindigkeit</b><small>Die Grundgrößen, die in fast jeder Rechnung wiederkommen.</small></a><a class="toc-card" href="#kap3"><span>Woche 2–3</span><b>3. Impuls-Echo-Prinzip</b><small>Aus einer Laufzeit wird eine Tiefe.</small></a><a class="toc-card" href="#kap4"><span>Woche 3–4</span><b>4. A-Bild lesen</b><small>Echohöhe und Laufzeit sinnvoll interpretieren.</small></a><a class="toc-card" href="#kap5"><span>Woche 4–5</span><b>5. Schallgeschwindigkeit und Materialkennwerte</b><small>Aus einer bekannten Dicke wird ein Materialhinweis.</small></a><a class="toc-card" href="#kap6"><span>Woche 5–6</span><b>6. Dickenmessung mit Ultraschall</b><small>Wanddicke messen, auch wenn nur eine Seite erreichbar ist.</small></a><a class="toc-card" href="#kap7"><span>Woche 6–7</span><b>7. Ungänzen finden und lokalisieren</b><small>Vom zusätzlichen Echo zur begründeten Lageangabe.</small></a><a class="toc-card" href="#kap8"><span>Woche 7–8</span><b>8. Normalprüfköpfe und Koppeln</b><small>Warum der Kontakt zwischen Prüfkopf und Werkstück so wichtig ist.</small></a><a class="toc-card" href="#kap9"><span>Woche 8–9</span><b>9. Tauchtechnik</b><small>Wasser als kontrolliertes Koppelmedium nutzen.</small></a><a class="toc-card" href="#kap10"><span>Woche 10</span><b>10. Winkelprüfköpfe</b><small>Schräg einschallen, um ungünstige Fehlerlagen zu treffen.</small></a><a class="toc-card" href="#kap11"><span>Woche 11</span><b>11. Justieren und Referenzkörper</b><small>Vor der Messung das System auf bekannte Größen einstellen.</small></a><a class="toc-card" href="#kap12"><span>Woche 12</span><b>12. Laserlicht und Interferenz</b><small>Wie Lichtwellen kleinste Wegänderungen sichtbar machen.</small></a><a class="toc-card" href="#kap13"><span>Woche 13–14</span><b>13. Michelson-Interferometer: Aufbau und Strahlwege</b><small>Laser, Strahlteiler, Spiegel und die doppelte Wegänderung.</small></a><a class="toc-card" href="#kap14"><span>Woche 15</span><b>14. Längenänderungen mit Fransen zählen</b><small>Aus Hell-Dunkel-Wechseln wird ein Mikrometerwert.</small></a><a class="toc-card" href="#kap15"><span>Woche 16</span><b>15. Gase und Flüssigkeiten im Interferometer</b><small>Brechungsindexänderungen als optische Wegänderungen messen.</small></a><a class="toc-card" href="#kap16"><span>Woche 17</span><b>16. Auswerten und Dokumentieren</b><small>Messdaten so darstellen, dass andere sie prüfen können.</small></a><a class="toc-card" href="#kap17"><span>Woche 18</span><b>17. Transfer: Echoverfahren und Interferenz vergleichen</b><small>Beide Verfahren als Wellenmessungen verstehen.</small></a></div>
+          <div class="progress-panel">
+            <div><b>Dein Fortschritt</b><div class="bar" aria-label="Fortschrittsbalken"><span id="progressBar"></span></div></div>
+            <div id="progressText">0 von 17 Kapiteln markiert</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="block" id="kapitel">
+      <div class="wrap">
+        <div class="section-head"><div><h2>Kapitel des Halbjahrs</h2><p>Jedes Kapitel enthält Ziele, Einstieg, Grundwissen, Merksatz, Beispiel, Aufgaben mit Hilfen, Lösungen, Selbstcheck, Zusammenfassung und Quellenhinweis.</p></div></div>
+        <div class="script-stack">
+    <article class="chapter" id="kap1" data-title="Warum zerstörungsfrei prüfen? Woche 1 Vom Prüfproblem zur sinnvollen Prüffrage.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 1</span>
+          <h3>1. Warum zerstörungsfrei prüfen?</h3>
+          <p>Vom Prüfproblem zur sinnvollen Prüffrage.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap1"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du erklärst, warum Bauteile geprüft werden, ohne sie zu zerstören.</li><li>Du unterscheidest Fehlstelle, Ungänze, Anzeige und Bewertung.</li><li>Du formulierst eine einfache Prüffrage für ein Werkstück.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Ein Rohr soll weiterverwendet werden. Von außen sieht es gut aus, aber innen könnte Korrosion oder ein Riss vorliegen. Wie findet man Hinweise, ohne das Rohr aufzuschneiden?</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Zerstörungsfreie Prüfung, kurz <b>ZfP</b>, bedeutet: Ein Werkstück wird untersucht, ohne es für den späteren Einsatz unbrauchbar zu machen. In diesem Halbjahr geht es vor allem um zwei Wellenverfahren: Ultraschalltechnik und Lasertechnik. Ultraschall nutzt mechanische Wellen im Werkstoff. Lasertechnik nutzt Lichtwellen und Interferenz. Beide Verfahren übersetzen eine unsichtbare Veränderung in ein messbares Signal.</p>
+        <div class="tagrow"><span class="tag">ZfP</span><span class="tag">Ungänze</span><span class="tag">Anzeige</span><span class="tag">Prüfauftrag</span><span class="tag">Qualitätssicherung</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Prüfen heißt nicht nur „etwas finden“, sondern eine begründete Entscheidung vorbereiten: Wo wurde wie gemessen, was wurde angezeigt, und wie sicher ist die Aussage?</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Ein Aluminiumblock darf nicht zersägt werden. Ein Ultraschallgerät zeigt ein zusätzliches Echo vor dem Rückwandecho. Das ist zunächst eine <b>Anzeige</b>. Erst durch Position, Wiederholbarkeit und Vergleich mit Referenzen wird daraus eine fachliche Aussage über eine mögliche Ungänze.</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Ordne bei einem Prüfauftrag zuerst drei Dinge: Werkstück, gesuchte Auffälligkeit und geeignetes Verfahren. Nutze dann die interaktive Mini-Abfrage am Kapitelende.</p>
+        <div class="toolchips"><a class="toolchip" href="#kapitel">Kapitel-Selbstcheck</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Verständnisfrage</div>
+        <h4>Aufgabe 1</h4>
+        <p>Warum reicht es nicht, im Prüfbericht nur „Fehler gefunden“ zu schreiben?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Denke an Nachvollziehbarkeit.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Welche Messbedingungen braucht eine andere Person?</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Nenne mindestens drei Angaben: Verfahren, Position, Signal/Messwert.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Weil ein Prüfbericht nachvollziehbar sein muss. Andere müssen wissen, welches Verfahren verwendet wurde, an welcher Position gemessen wurde, wie das Signal aussah und welche Grenzen die Messung hatte. Erst dadurch wird aus einer Anzeige eine belastbare technische Aussage.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Anwendungsaufgabe</div>
+        <h4>Aufgabe 2</h4>
+        <p>Formuliere eine Prüffrage für eine dicke Stahlplatte, die von außen intakt aussieht.</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Beginne mit „Ist …?“</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Beziehe dich auf innere Ungänzen oder Wanddicke.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Eine gute Prüffrage ist messbar.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Eine passende Prüffrage wäre: „Gibt es im Inneren der Stahlplatte reflektierende Ungänzen, die vor dem Rückwandecho ein zusätzliches Ultraschallecho erzeugen?“ Alternativ: „Entspricht die Wanddicke der Platte an mehreren Messpunkten dem Sollwert?“</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Transfer</div>
+        <h4>Aufgabe 3</h4>
+        <p>Warum kann ZfP sicherheitsrelevant sein, obwohl sie oft unsichtbar im Hintergrund abläuft?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Denke an Bauteile, die später belastet werden.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Frühe Hinweise verhindern Schäden.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Sicherheit entsteht durch rechtzeitiges Erkennen von Risiken.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Wenn Risse, Korrosion oder Lunker früh erkannt werden, können Bauteile repariert, aussortiert oder weiter überwacht werden, bevor sie versagen. ZfP trägt damit zur Sicherheit von Anlagen, Fahrzeugen und Produkten bei.</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>Anzeige sofort als sicheren Fehler bewerten.</li><li>Messbedingungen nicht dokumentieren.</li><li>Verfahren wählen, ohne Prüffrage und Werkstoff zu beachten.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="ZfP soll Informationen über ein Bauteil liefern, ohne es für seinen Zweck zu zerstören.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Was ist das Ziel einer ZfP-Messung?</p>
+        <div class="answers"><button data-correct="false">Das Bauteil absichtlich zerstören, um den inneren Aufbau zu sehen.</button><button data-correct="true">Hinweise auf Eigenschaften oder Ungänzen gewinnen, ohne das Bauteil unbrauchbar zu machen.</button><button data-correct="false">Immer eine Note für das Bauteil vergeben.</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du kennst den Zweck von ZfP und denkst vom Prüfauftrag her: Was suche ich, womit messe ich, wie dokumentiere ich?</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Welche Angabe dürfte in deinem ersten Prüfbericht auf keinen Fall fehlen?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP C1 NF/FHR PHT 13.1; DGZfP Überblick ZfP.</p>
+      </section>
+    </article>
+
+    <article class="chapter" id="kap2" data-title="Wellen-Minimum: Frequenz, Wellenlänge, Schallgeschwindigkeit Woche 1–2 Die Grundgrößen, die in fast jeder Rechnung wiederkommen.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 1–2</span>
+          <h3>2. Wellen-Minimum: Frequenz, Wellenlänge, Schallgeschwindigkeit</h3>
+          <p>Die Grundgrößen, die in fast jeder Rechnung wiederkommen.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap2"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du beschreibst Frequenz, Wellenlänge und Ausbreitungsgeschwindigkeit.</li><li>Du rechnest mit der Grundformel der Welle.</li><li>Du erklärst, warum die Schallgeschwindigkeit materialabhängig ist.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Ein Prüfkopf arbeitet mit 5 MHz. Ist die Wellenlänge im Stahl eher metergroß, zentimetergroß oder millimetergroß? Das entscheidet, welche Details überhaupt sinnvoll aufgelöst werden können.</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Eine Welle transportiert Energie und Information, nicht einfach „Material“. Die <b>Frequenz</b> gibt an, wie oft pro Sekunde geschwungen wird. Die <b>Wellenlänge</b> ist der Abstand zweier gleicher Schwingungszustände. Die <b>Schallgeschwindigkeit</b> hängt vom Medium ab. Die zentrale Beziehung lautet <span class="formula" role="math" aria-label="c gleich Lambda mal f"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>c</mi><mo>=</mo><mi>λ</mi><mo>·</mo><mi>f</mi></mrow></math></span>. Für Ultraschall im Festkörper sind Frequenzen im Megahertzbereich typisch; dadurch werden die Wellenlängen klein genug für technische Prüfaufgaben.</p>
+        <div class="tagrow"><span class="tag">Frequenz f</span><span class="tag">Wellenlänge λ</span><span class="tag">Schallgeschwindigkeit c</span><span class="tag">Medium</span><span class="tag">Dämpfung</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Je höher die Frequenz bei gleicher Schallgeschwindigkeit, desto kleiner ist die Wellenlänge.</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Für Stahl kann man als groben Longitudinalwert <span class="formula" role="math" aria-label="c ungefähr 5900 Meter pro Sekunde"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>c</mi><mo>≈</mo><mn>5900</mn><mtext> m/s</mtext></mrow></math></span> nutzen. Bei <span class="formula" role="math" aria-label="f gleich 5 Megahertz"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>f</mi><mo>=</mo><mn>5,0</mn><mtext> MHz</mtext></mrow></math></span> gilt: <span class="formula" role="math" aria-label="Lambda gleich c durch f"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>λ</mi><mo>=</mo><mfrac><mi>c</mi><mi>f</mi></mfrac></mrow></math></span>. Also <span class="formula" role="math" aria-label="Lambda gleich 1,18 Millimeter"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>λ</mi><mo>=</mo><mfrac><mrow><mn>5900</mn><mtext> m/s</mtext></mrow><mrow><mn>5,0</mn><mo>·</mo><msup><mn>10</mn><mn>6</mn></msup><mtext> 1/s</mtext></mrow></mfrac><mo>=</mo><mn>0,00118</mn><mtext> m</mtext><mo>=</mo><mn>1,18</mn><mtext> mm</mtext></mrow></math></span>. Antwort: Die Wellenlänge liegt im Millimeterbereich.</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Probiere im Tool „Wellenlänge“ aus, wie sich λ verändert, wenn du die Frequenz von 1 MHz auf 10 MHz erhöhst.</p>
+        <div class="toolchips"><a class="toolchip" href="#tool-wave">Wellenlänge-Rechner</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Verständnisfrage</div>
+        <h4>Aufgabe 1</h4>
+        <p>Was bedeutet „5 MHz“ in Worten?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>MHz heißt Megahertz.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Mega bedeutet eine Million.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Es geht um Schwingungen pro Sekunde.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>5 MHz bedeutet 5 Millionen Schwingungen pro Sekunde.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Rechenaufgabe</div>
+        <h4>Aufgabe 2</h4>
+        <p>Berechne die Wellenlänge bei c = 1480 m/s in Wasser und f = 2 MHz.</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Nutze λ = c/f.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>2 MHz sind 2 · 10⁶ Hz.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Rechne zuerst in Metern und wandle dann in Millimeter um.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p><span class="formula" role="math" aria-label="Lambda gleich 0,74 Millimeter"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>λ</mi><mo>=</mo><mfrac><mrow><mn>1480</mn><mtext> m/s</mtext></mrow><mrow><mn>2</mn><mo>·</mo><msup><mn>10</mn><mn>6</mn></msup><mtext> 1/s</mtext></mrow></mfrac><mo>=</mo><mn>0,00074</mn><mtext> m</mtext><mo>=</mo><mn>0,74</mn><mtext> mm</mtext></mrow></math></span>. Die Wellenlänge in Wasser beträgt etwa 0,74 mm.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Transfer</div>
+        <h4>Aufgabe 3</h4>
+        <p>Warum ist die Wellenlänge für die Fehlererkennung relevant?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Vergleiche Größe der Ungänze und Wellenlänge.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Sehr kleine Details erzeugen oft schwache oder schwer deutbare Signale.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Auflösung und Dämpfung hängen mit der Frequenz zusammen.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Die Wellenlänge beeinflusst, welche Strukturen ein Ultraschallsignal sinnvoll auflösen kann. Kleinere Wellenlängen können kleinere Strukturen besser erfassen, werden aber häufig stärker gedämpft.</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>MHz und Hz verwechseln.</li><li>mm, m und µs ohne Umrechnung mischen.</li><li>c als überall gleich annehmen.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="Aus λ = c/f folgt: Größere Frequenz bedeutet kleinere Wellenlänge.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Wenn f größer wird und c gleich bleibt, dann wird λ …</p>
+        <div class="answers"><button data-correct="false">größer</button><button data-correct="true">kleiner</button><button data-correct="false">immer null</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du kannst die drei Wellen-Grundgrößen erklären und mit c = λ · f rechnen.</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Welche Einheit hat die Frequenz, und was bedeutet sie anschaulich?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP; LEIFIphysik Schallgeschwindigkeit/Werkstoffprüfung.</p>
+      </section>
+    </article>
+
+    <article class="chapter" id="kap3" data-title="Impuls-Echo-Prinzip Woche 2–3 Aus einer Laufzeit wird eine Tiefe.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 2–3</span>
+          <h3>3. Impuls-Echo-Prinzip</h3>
+          <p>Aus einer Laufzeit wird eine Tiefe.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap3"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du erklärst Senden, Reflektieren und Empfangen eines Ultraschallimpulses.</li><li>Du wendest die Laufzeitformel korrekt an.</li><li>Du begründest den Faktor 2 in der Formel.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Das Gerät zeigt ein Echo nach 3,4 µs. Liegt die Rückwand wirklich so weit weg, wie der Schall in 3,4 µs läuft? Oder hat der Schall denselben Weg zweimal zurückgelegt?</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Beim Impuls-Echo-Verfahren sendet der Prüfkopf einen kurzen Ultraschallimpuls in das Werkstück. An Grenzflächen oder Ungänzen wird ein Teil reflektiert und kommt zum Prüfkopf zurück. Die gemessene Zeit ist also die Zeit für Hinweg und Rückweg. Deshalb lautet die Tiefenformel <span class="formula" role="math" aria-label="d gleich c mal Delta t durch 2"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>d</mi><mo>=</mo><mfrac><mrow><mi>c</mi><mo>·</mo><mrow><mi>Δ</mi><mi>t</mi></mrow></mrow><mn>2</mn></mfrac></mrow></math></span>.</p>
+        <div class="tagrow"><span class="tag">Impuls</span><span class="tag">Echo</span><span class="tag">Laufzeit Δt</span><span class="tag">Reflektor</span><span class="tag">Rückwandecho</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Im Echoverfahren ist die gemessene Zeit eine Hin-und-zurück-Zeit. Deshalb wird durch 2 geteilt.</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Ein Stahlstück wird mit <span class="formula" role="math" aria-label="c gleich 5900 m/s"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>c</mi><mo>=</mo><mn>5900</mn><mtext> m/s</mtext></mrow></math></span> geprüft. Das Rückwandecho kommt nach <span class="formula" role="math" aria-label="Delta t gleich 3,4 Mikrosekunden"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mrow><mi>Δ</mi><mi>t</mi></mrow><mo>=</mo><mn>3,4</mn><mtext> µs</mtext></mrow></math></span>. Mit der praktischen mm-Regel ergibt sich <span class="formula" role="math" aria-label="d ungefähr 10 Millimeter"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>d</mi><mo>=</mo><mfrac><mrow><mn>5900</mn><mo>·</mo><mn>3,4</mn></mrow><mn>2000</mn></mfrac><mtext> mm</mtext><mo>≈</mo><mn>10,0</mn><mtext> mm</mtext></mrow></math></span>. Antwort: Die Dicke beträgt etwa 10,0 mm.</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Nutze den Rechner „Laufzeit/Tiefe“. Ändere nur die Laufzeit und beobachte, wie die berechnete Tiefe proportional mitwandert.</p>
+        <div class="toolchips"><a class="toolchip" href="#tool-tof">Laufzeit/Tiefe-Rechner</a><a class="toolchip" href="#tool-ascan">A-Bild-Simulator</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Verständnisfrage</div>
+        <h4>Aufgabe 1</h4>
+        <p>Warum misst das Gerät nicht direkt die Tiefe?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Das Gerät kann Zeiten sehr gut messen.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Die Tiefe wird aus Zeit und Schallgeschwindigkeit berechnet.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Dazu wird ein Modell des Schallwegs gebraucht.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Das Gerät registriert den Zeitpunkt eines Echos. Aus dieser Laufzeit und der eingestellten Schallgeschwindigkeit wird die Tiefe berechnet. Die Tiefe ist also ein berechneter Wert, kein direkt gemessener Abstand.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Rechenaufgabe</div>
+        <h4>Aufgabe 2</h4>
+        <p>Ein Echo kommt nach 2,0 µs. Das Material hat c = 5300 m/s. Berechne die Tiefe.</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Nutze d = c · Δt / 2.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>2,0 µs sind 2,0 · 10⁻⁶ s.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>In mm geht es schnell: d(mm) = c(m/s) · t(µs) / 2000.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p><span class="formula" role="math" aria-label="d gleich 5,3 Millimeter"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>d</mi><mo>=</mo><mfrac><mrow><mn>5300</mn><mo>·</mo><mn>2,0</mn></mrow><mn>2000</mn></mfrac><mtext> mm</mtext><mo>=</mo><mn>5,3</mn><mtext> mm</mtext></mrow></math></span>. Der Reflektor liegt etwa 5,3 mm tief.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Analyse</div>
+        <h4>Aufgabe 3</h4>
+        <p>Was passiert mit dem Ergebnis, wenn du versehentlich nicht durch 2 teilst?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Vergleiche Hinweg mit Hin- und Rückweg.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Ohne Teilen rechnest du die doppelte Strecke.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Das Ergebnis wäre doppelt so groß.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Ohne Faktor 2 erhältst du die Hin-und-Rück-Strecke. Die angegebene Tiefe wäre doppelt so groß wie sie sein sollte.</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>Den Hin-und-Rückweg vergessen.</li><li>µs nicht in Sekunden oder mm-Rechenregel umrechnen.</li><li>Materialschallgeschwindigkeit blind übernehmen.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="Die Laufzeit gehört zum doppelten Weg: zum Reflektor hin und wieder zurück.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Warum steht in der Echoformel der Nenner 2?</p>
+        <div class="answers"><button data-correct="false">Weil der Schall zwei Medien durchläuft.</button><button data-correct="true">Weil die Laufzeit Hinweg und Rückweg enthält.</button><button data-correct="false">Weil Ultraschall eine Longitudinalwelle ist.</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du kannst eine Echozeit in eine Tiefe oder Dicke umrechnen und den Faktor 2 begründen.</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Wie würdest du einem Mitschüler den Faktor 2 ohne Formel erklären?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP; LEIFIphysik Impuls-Echo-Verfahren; DGZfP Ultraschallprüfung.</p>
+      </section>
+    </article>
+
+    <article class="chapter" id="kap4" data-title="A-Bild lesen Woche 3–4 Echohöhe und Laufzeit sinnvoll interpretieren.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 3–4</span>
+          <h3>4. A-Bild lesen</h3>
+          <p>Echohöhe und Laufzeit sinnvoll interpretieren.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap4"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du erkennst Startimpuls, Fehlerecho und Rückwandecho.</li><li>Du unterscheidest Laufzeitinformation und Amplitudeninformation.</li><li>Du beschreibst eine einfache Auswertestrategie.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Auf dem Bildschirm sind mehrere Peaks. Welcher Peak ist die Rückwand, welcher könnte eine Ungänze sein, und warum reicht die Höhe allein nicht aus?</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Ein A-Bild zeigt die Echoamplitude über der Laufzeit. Die waagerechte Achse steht für Zeit oder daraus abgeleiteten Schallweg. Die senkrechte Achse steht für Signalhöhe. Ein früher Peak liegt näher an der Oberfläche als ein später Peak. Ein starkes Echo kann von einer großen Grenzfläche stammen, aber auch durch günstige Ausrichtung entstehen. Deshalb musst du Laufzeit, Lage, Prüfkopfbewegung und Werkstückgeometrie gemeinsam betrachten.</p>
+        <div class="tagrow"><span class="tag">A-Bild</span><span class="tag">Peak</span><span class="tag">Amplitude</span><span class="tag">Zeitbasis</span><span class="tag">Rückwandecho</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Im A-Bild sagt die x-Position „wann/tief“, die y-Höhe „wie stark“. Beides ist wichtig, aber keines allein beweist alles.</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Ein Fehlerecho erscheint bei 1,0 µs, das Rückwandecho bei 4,0 µs. Bei gleicher Schallgeschwindigkeit liegt die Anzeige bei einem Viertel der Laufzeit des Rückwandechos. Im einfachen Normalprüfkopf-Fall liegt sie daher ungefähr bei einem Viertel der Bauteildicke.</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Öffne den A-Bild-Simulator. Verschiebe das Fehlerecho vor und zurück. Achte auf Achsentitel, Skalenwerte und berechnete Tiefen.</p>
+        <div class="toolchips"><a class="toolchip" href="#tool-ascan">A-Bild-Simulator</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Verständnisfrage</div>
+        <h4>Aufgabe 1</h4>
+        <p>Welche Information steckt hauptsächlich in der x-Achse eines A-Bildes?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Denke an die Laufzeit.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Die Laufzeit wird in Tiefe umgerechnet.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Frühes Echo bedeutet meist geringe Tiefe.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Die x-Achse beschreibt die Laufzeit beziehungsweise den daraus berechneten Schallweg. Damit kann man abschätzen, in welcher Tiefe ein Reflektor liegt.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Analyseaufgabe</div>
+        <h4>Aufgabe 2</h4>
+        <p>Ein zusätzlicher Peak liegt vor dem Rückwandecho. Was prüfst du als Nächstes?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Bewege den Prüfkopf.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Prüfe Wiederholbarkeit.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Vergleiche mit Geometrie und Referenz.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Ich prüfe, ob der Peak bei wiederholter Messung und leicht veränderter Prüfkopfposition reproduzierbar ist. Dann vergleiche ich die Laufzeit mit der Werkstückgeometrie und dokumentiere die Position. Erst danach bewerte ich die Anzeige.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Transfer</div>
+        <h4>Aufgabe 3</h4>
+        <p>Warum kann ein kleines Echo trotzdem wichtig sein?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Amplitude ist nicht allein entscheidend.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Lage, Sicherheitsrelevanz und Wiederholbarkeit zählen.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Ein kleiner, aber reproduzierbarer Peak kann eine wichtige Anzeige sein.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Ein kleines Echo kann durch ungünstige Reflexion, Dämpfung oder Orientierung klein erscheinen. Wenn es reproduzierbar an sicherheitskritischer Stelle auftritt, darf es nicht einfach ignoriert werden.</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>Amplitude als Fehlergröße deuten.</li><li>Rückwandecho nicht zuerst identifizieren.</li><li>Zeitbasis ohne Einheit ablesen.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="Die Echohöhe ist die empfangene Signalstärke. Ihre Bewertung hängt von vielen Messbedingungen ab.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Was zeigt die Höhe eines Peaks im A-Bild am ehesten?</p>
+        <div class="answers"><button data-correct="false">Die absolute Größe eines Risses ohne weitere Prüfung.</button><button data-correct="true">Die Stärke des empfangenen Signals.</button><button data-correct="false">Die Temperatur des Prüfkopfs.</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du kannst ein A-Bild strukturiert lesen: erst Achsen und Rückwand, dann zusätzliche Anzeigen, dann Plausibilität.</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Welche zwei Informationen würdest du aus einem A-Bild immer ablesen?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP; LEIFIphysik Ultraschall; Grundlagen A-Bild-Darstellung.</p>
+      </section>
+    </article>
+
+    <article class="chapter" id="kap5" data-title="Schallgeschwindigkeit und Materialkennwerte Woche 4–5 Aus einer bekannten Dicke wird ein Materialhinweis.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 4–5</span>
+          <h3>5. Schallgeschwindigkeit und Materialkennwerte</h3>
+          <p>Aus einer bekannten Dicke wird ein Materialhinweis.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap5"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du bestimmst die Schallgeschwindigkeit aus Dicke und Laufzeit.</li><li>Du erklärst, warum c ein Materialkennwert ist.</li><li>Du gehst vorsichtig mit Materialvergleichen um.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Ein unbekanntes Metallstück hat eine bekannte Dicke. Die Rückwandechozeit passt eher zu Aluminium als zu Stahl. Ist das schon ein sicherer Werkstoffnachweis?</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Die Schallgeschwindigkeit hängt von Dichte und elastischen Eigenschaften des Materials ab. Bei bekannter Dicke kann sie aus der Rückwandechozeit bestimmt werden: <span class="formula" role="math" aria-label="c gleich zwei d durch Delta t"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>c</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>d</mi></mrow><mrow><mi>Δ</mi><mi>t</mi></mrow></mfrac></mrow></math></span>. Das Ergebnis kann mit Tabellenwerten verglichen werden. Trotzdem ist Vorsicht nötig: Temperatur, Gefüge, Wellenart, Prüfkopf, Kalibrierung und Messunsicherheit beeinflussen das Ergebnis.</p>
+        <div class="tagrow"><span class="tag">Materialkennwert</span><span class="tag">Elastizitätsmodul</span><span class="tag">Dichte</span><span class="tag">Kalibrierung</span><span class="tag">Messunsicherheit</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Eine gemessene Schallgeschwindigkeit ist ein starker Hinweis auf ein Material, aber kein vollständiger Werkstoffpass.</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Ein Probestück ist <span class="formula" role="math" aria-label="d gleich 5 Millimeter"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>d</mi><mo>=</mo><mn>5,0</mn><mtext> mm</mtext></mrow></math></span> dick. Das Rückwandecho kommt nach <span class="formula" role="math" aria-label="Delta t gleich 1,9 Mikrosekunden"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mrow><mi>Δ</mi><mi>t</mi></mrow><mo>=</mo><mn>1,9</mn><mtext> µs</mtext></mrow></math></span>. Dann <span class="formula" role="math" aria-label="c ungefähr 5260 Meter pro Sekunde"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>c</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mo>·</mo><mn>5,0</mn><mtext> mm</mtext></mrow><mrow><mn>1,9</mn><mtext> µs</mtext></mrow></mfrac><mo>≈</mo><mn>5260</mn><mtext> m/s</mtext></mrow></math></span>. Das ist ein plausibler Festkörperwert, muss aber mit Referenz und Unsicherheit verglichen werden.</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Nutze den Rechner „Schallgeschwindigkeit“ und verändere die Echozeit nur leicht. Beobachte, wie empfindlich c reagiert.</p>
+        <div class="toolchips"><a class="toolchip" href="#tool-speed">c-Rechner</a><a class="toolchip" href="#tool-uncertainty">Messunsicherheit</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Rechenaufgabe</div>
+        <h4>Aufgabe 1</h4>
+        <p>Ein 8,0 mm dickes Werkstück liefert ein Rückwandecho nach 2,7 µs. Berechne c.</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Nutze c = 2d/Δt.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Mit d in mm und t in µs: c = 2000 · d/t.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Setze 8,0 und 2,7 ein.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p><span class="formula" role="math" aria-label="c ungefähr 5926 Meter pro Sekunde"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>c</mi><mo>=</mo><mfrac><mrow><mn>2000</mn><mo>·</mo><mn>8,0</mn></mrow><mn>2,7</mn></mfrac><mtext> m/s</mtext><mo>≈</mo><mn>5926</mn><mtext> m/s</mtext></mrow></math></span>. Der Wert passt grob zu Stahl-Longitudinalschall.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Analyse</div>
+        <h4>Aufgabe 2</h4>
+        <p>Warum ist ein einzelner c-Wert noch kein endgültiger Materialnachweis?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Denke an Messunsicherheit.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Mehrere Werkstoffe können ähnliche Werte haben.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Der Prüfaufbau beeinflusst das Ergebnis.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Ein einzelner Messwert kann durch Kalibrierfehler, falsche Echoauswahl oder Temperatur beeinflusst sein. Außerdem können Werkstoffe ähnliche Schallgeschwindigkeiten haben. Für einen sicheren Nachweis braucht man weitere Informationen.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Transfer</div>
+        <h4>Aufgabe 3</h4>
+        <p>Wie würdest du deine Messung verbessern?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Mehrfach messen.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Referenzkörper verwenden.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Mittelwert und Streuung angeben.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Ich würde mehrere Positionen messen, das Gerät an einem Referenzkörper justieren, die Messwerte mitteln und eine Streuung oder Unsicherheit angeben.</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>Dicke als Hin-und-Rückweg einsetzen.</li><li>Tabellenwerte ohne Wellenart vergleichen.</li><li>Zu viele Stellen im Ergebnis angeben.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="Bei bekannter Dicke liefert die Echozeit einen Wert für die Schallgeschwindigkeit.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Was berechnest du mit c = 2d/Δt?</p>
+        <div class="answers"><button data-correct="true">Die Schallgeschwindigkeit aus bekannter Dicke und Echozeit.</button><button data-correct="false">Die Laserwellenlänge.</button><button data-correct="false">Die Amplitude des Fehlerechos.</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du kannst c bestimmen und als Materialhinweis nutzen, ohne die Grenzen der Aussage zu vergessen.</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Welche Messgröße beeinflusst c in dieser Rechnung am stärksten, wenn sie falsch abgelesen wird?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP; LEIFIphysik; DGZfP Ultraschallprüfung.</p>
+      </section>
+    </article>
+
+    <article class="chapter" id="kap6" data-title="Dickenmessung mit Ultraschall Woche 5–6 Wanddicke messen, auch wenn nur eine Seite erreichbar ist.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 5–6</span>
+          <h3>6. Dickenmessung mit Ultraschall</h3>
+          <p>Wanddicke messen, auch wenn nur eine Seite erreichbar ist.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap6"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du berechnest Wanddicken aus Rückwandechos.</li><li>Du beschreibst einen praxisnahen Messablauf.</li><li>Du beurteilst Plausibilität und typische Fehlerquellen.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Ein Behälter ist von innen nicht zugänglich. Von außen soll geprüft werden, ob die Wanddicke noch ausreichend ist. Wie gehst du vor?</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Bei der Dickenmessung wird meist das Rückwandecho genutzt. Ist die Materialschallgeschwindigkeit bekannt oder kalibriert, kann die Dicke mit <span class="formula" role="math" aria-label="d gleich c mal Delta t durch 2"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>d</mi><mo>=</mo><mfrac><mrow><mi>c</mi><mo>·</mo><mrow><mi>Δ</mi><mi>t</mi></mrow></mrow><mn>2</mn></mfrac></mrow></math></span> bestimmt werden. Wichtig ist eine stabile Kopplung, eine geeignete Oberfläche und eine sinnvolle Messstrategie mit mehreren Messpunkten.</p>
+        <div class="tagrow"><span class="tag">Wanddicke</span><span class="tag">Rückwandecho</span><span class="tag">Koppelmittel</span><span class="tag">Kalibrierkörper</span><span class="tag">Messpunkt</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Eine einzelne Dickenmessung ist ein Hinweis; ein Dickenprofil aus mehreren Messpunkten ist viel aussagekräftiger.</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Für ein Rohr wird <span class="formula" role="math" aria-label="c gleich 5900 m/s"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>c</mi><mo>=</mo><mn>5900</mn><mtext> m/s</mtext></mrow></math></span> eingestellt. Das Rückwandecho liegt bei <span class="formula" role="math" aria-label="Delta t gleich 2,2 µs"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mrow><mi>Δ</mi><mi>t</mi></mrow><mo>=</mo><mn>2,2</mn><mtext> µs</mtext></mrow></math></span>. Mit der mm-Regel <span class="formula" role="math" aria-label="d in Millimeter gleich c mal t durch 2000"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>d</mi><mo>=</mo><mfrac><mrow><mi>c</mi><mo>·</mo><mrow><mi>Δ</mi><mi>t</mi></mrow></mrow><mn>2000</mn></mfrac></mrow></math></span> erhält man <span class="formula" role="math" aria-label="d gleich 6,49 mm"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>d</mi><mo>=</mo><mfrac><mrow><mn>5900</mn><mo>·</mo><mn>2,2</mn></mrow><mn>2000</mn></mfrac><mtext> mm</mtext><mo>=</mo><mn>6,49</mn><mtext> mm</mtext></mrow></math></span>. Antwort: rund 6,5 mm.</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Nutze „Laufzeit/Tiefe“ und „Messunsicherheit“. Simuliere fünf Messpunkte einer Wand und prüfe, ob ein Ausreißer auffällt.</p>
+        <div class="toolchips"><a class="toolchip" href="#tool-tof">Laufzeit/Tiefe-Rechner</a><a class="toolchip" href="#tool-uncertainty">Messunsicherheit</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Rechenaufgabe</div>
+        <h4>Aufgabe 1</h4>
+        <p>Bei c = 5920 m/s und t = 1,75 µs: Wie dick ist die Wand?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Nimm die mm-Regel d = c · t / 2000.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Multipliziere 5920 · 1,75.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Teile durch 2000.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p><span class="formula" role="math" aria-label="d gleich 5,18 Millimeter"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>d</mi><mo>=</mo><mfrac><mrow><mn>5920</mn><mo>·</mo><mn>1,75</mn></mrow><mn>2000</mn></mfrac><mtext> mm</mtext><mo>=</mo><mn>5,18</mn><mtext> mm</mtext></mrow></math></span>. Die Wand ist etwa 5,2 mm dick.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Anwendungsaufgabe</div>
+        <h4>Aufgabe 2</h4>
+        <p>Nenne vier Schritte eines sauberen Messablaufs.</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Oberfläche vorbereiten.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Gerät einstellen.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Mehrfach messen.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>1. Oberfläche reinigen und Koppelmittel auftragen. 2. Gerät mit passender Schallgeschwindigkeit oder Referenz justieren. 3. An mehreren Punkten ein stabiles Rückwandecho messen. 4. Messwerte mit Einheiten, Positionen und Auffälligkeiten dokumentieren.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Transfer</div>
+        <h4>Aufgabe 3</h4>
+        <p>Warum misst man bei Korrosionsverdacht nicht nur an einer Stelle?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Korrosion ist oft lokal unterschiedlich.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Eine Stelle kann zufällig unauffällig sein.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Ein Messraster zeigt Trends.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Korrosion kann sehr ungleichmäßig sein. Mehrere Messpunkte zeigen dünne Stellen, Ausreißer und Trends deutlich besser als ein Einzelwert.</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>Falsches Echo als Rückwand nehmen.</li><li>Koppelmittelmenge stark variieren.</li><li>Sollwert und Messunsicherheit nicht unterscheiden.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="Dicke entsteht aus Laufzeit und Schallgeschwindigkeit. Das Echo muss zur Rückwand gehören.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Was ist bei der Dickenmessung mit Rückwandecho besonders wichtig?</p>
+        <div class="answers"><button data-correct="true">Ein stabiles Rückwandecho und ein passender c-Wert.</button><button data-correct="false">Nur eine möglichst große Echohöhe.</button><button data-correct="false">Eine möglichst lange Wartezeit nach der Messung.</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du kannst Wanddicke berechnen und weißt, warum mehrere Messpunkte und saubere Kopplung entscheidend sind.</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Wie würdest du einen Messpunkt kennzeichnen, damit du ihn später wiederfindest?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP; DGZfP; LEIFIphysik Werkstoffprüfung mit Ultraschall.</p>
+      </section>
+    </article>
+
+    <article class="chapter" id="kap7" data-title="Ungänzen finden und lokalisieren Woche 6–7 Vom zusätzlichen Echo zur begründeten Lageangabe.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 6–7</span>
+          <h3>7. Ungänzen finden und lokalisieren</h3>
+          <p>Vom zusätzlichen Echo zur begründeten Lageangabe.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap7"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du deutest zusätzliche Echos vor der Rückwand.</li><li>Du berechnest eine Fehlertiefe.</li><li>Du beschreibst, wie man eine Anzeige eingrenzt.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Im A-Bild taucht ein Echo auf, bevor die Rückwand erreicht ist. Ist das ein Riss, eine geometrische Kante oder nur schlechte Kopplung?</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Eine Ungänze kann Ultraschall reflektieren. Dann erscheint ein Echo vor dem Rückwandecho. Mit <span class="formula" role="math" aria-label="d gleich c mal Delta t durch 2"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>d</mi><mo>=</mo><mfrac><mrow><mi>c</mi><mo>·</mo><mrow><mi>Δ</mi><mi>t</mi></mrow></mrow><mn>2</mn></mfrac></mrow></math></span> lässt sich die Tiefe des Reflektors berechnen. Zur Bewertung gehört aber mehr: Wiederholbarkeit, Verschieben des Prüfkopfs, Vergleich mit Werkstückgeometrie und Dokumentation.</p>
+        <div class="tagrow"><span class="tag">Fehlerecho</span><span class="tag">Reflektor</span><span class="tag">Lunker</span><span class="tag">Riss</span><span class="tag">Lagebestimmung</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Ein Fehlerecho ist ein Hinweis. Die Lage wird berechnet, die Bewertung entsteht durch systematisches Prüfen.</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Ein Fehlerecho liegt bei 0,80 µs, das Rückwandecho bei 2,40 µs. Wenn die Bauteildicke 7,2 mm beträgt, liegt das Fehlerecho bei etwa einem Drittel der Laufzeit. Die Tiefenrechnung ergibt bei c = 6000 m/s: <span class="formula" role="math" aria-label="Fehlertiefe 2,4 mm"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><msub><mi>d</mi><mi>F</mi></msub><mo>=</mo><mfrac><mrow><mn>6000</mn><mo>·</mo><mn>0,80</mn></mrow><mn>2000</mn></mfrac><mtext> mm</mtext><mo>=</mo><mn>2,4</mn><mtext> mm</mtext></mrow></math></span>.</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Stelle im A-Bild-Simulator das Fehlerecho vor das Rückwandecho und verändere die Rückwandzeit. Prüfe, ob deine Interpretation proportional bleibt.</p>
+        <div class="toolchips"><a class="toolchip" href="#tool-ascan">A-Bild-Simulator</a><a class="toolchip" href="#tool-tof">Laufzeit/Tiefe-Rechner</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Rechenaufgabe</div>
+        <h4>Aufgabe 1</h4>
+        <p>Bei c = 5300 m/s erscheint ein Fehlerecho nach 1,1 µs. Berechne die Tiefe.</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Nimm d = c · t / 2000 in mm.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>5300 · 1,1 = 5830.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Teile durch 2000.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p><span class="formula" role="math" aria-label="d gleich 2,915 Millimeter"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>d</mi><mo>=</mo><mfrac><mrow><mn>5300</mn><mo>·</mo><mn>1,1</mn></mrow><mn>2000</mn></mfrac><mtext> mm</mtext><mo>=</mo><mn>2,915</mn><mtext> mm</mtext></mrow></math></span>. Die Anzeige liegt ungefähr 2,9 mm tief.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Analyse</div>
+        <h4>Aufgabe 2</h4>
+        <p>Warum sollte man den Prüfkopf über die Oberfläche bewegen?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Ein echter Reflektor zeigt ein räumliches Verhalten.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Geometrische Echos ändern sich ebenfalls, aber nachvollziehbar.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Wiederholbarkeit ist wichtig.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Durch Verschieben sieht man, ob ein Echo reproduzierbar ist und wie es sich räumlich verändert. So kann man die Lage eingrenzen und Scheinanzeigen besser erkennen.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Transfer</div>
+        <h4>Aufgabe 3</h4>
+        <p>Was würdest du dokumentieren, wenn du eine Anzeige findest?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Position.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Geräteeinstellungen.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Signal und berechnete Tiefe.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Ich dokumentiere Messposition, Prüfkopf, Material-c-Wert, Koppelmittel, Echozeit, berechnete Tiefe, Echohöhe/Signalbild, Wiederholungsmessungen und eine vorsichtige Bewertung.</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>Jedes Echo vor der Rückwand sofort als Riss bezeichnen.</li><li>Geometriekanten ignorieren.</li><li>Nur eine Messposition nutzen.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="Zuerst ist es eine Anzeige. Die Bewertung braucht weitere Prüfung.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Was ist die fachlich sauberere Formulierung bei einem zusätzlichen Echo?</p>
+        <div class="answers"><button data-correct="false">Sicher ein Riss.</button><button data-correct="true">Eine Anzeige, die weiter geprüft und dokumentiert werden muss.</button><button data-correct="false">Ein Laserfehler.</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du kannst Fehlerechos lokalisieren und weißt, warum Interpretation mehr ist als nur Rechnen.</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Welche Zusatzprüfung würdest du nach einem auffälligen Echo zuerst machen?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP; DGZfP Ultraschallprüfung; LEIFIphysik Werkstoffprüfung.</p>
+      </section>
+    </article>
+
+    <article class="chapter" id="kap8" data-title="Normalprüfköpfe und Koppeln Woche 7–8 Warum der Kontakt zwischen Prüfkopf und Werkstück so wichtig ist.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 7–8</span>
+          <h3>8. Normalprüfköpfe und Koppeln</h3>
+          <p>Warum der Kontakt zwischen Prüfkopf und Werkstück so wichtig ist.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap8"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du erklärst den Normalprüfkopf.</li><li>Du beschreibst die Funktion von Koppelmittel.</li><li>Du erkennst Kopplung als wichtige Fehlerquelle.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Zwei Lernende messen dasselbe Werkstück. Eine Person erhält ein klares Rückwandecho, die andere fast nichts. Das Material ist gleich. Was kann passiert sein?</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Ein Normalprüfkopf schallt näherungsweise senkrecht in das Werkstück ein. Zwischen Prüfkopf und Werkstück darf möglichst keine Luftschicht bleiben, weil Luft Ultraschall schlecht in Metall einkoppelt. Koppelmittel wie Gel, Öl oder Wasser verdrängen Luft und verbessern die Übertragung. Reproduzierbare Kopplung ist deshalb Teil der Messqualität.</p>
+        <div class="tagrow"><span class="tag">Normalprüfkopf</span><span class="tag">Kopplung</span><span class="tag">Koppelmittel</span><span class="tag">Anpressdruck</span><span class="tag">Oberflächenzustand</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Ohne gute Kopplung prüfst du nicht nur das Werkstück, sondern vor allem deine schlechte Messbedingung.</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Eine Messung auf rauer, trockener Oberfläche zeigt ein schwaches Signal. Nach Reinigung und Koppelmittel erscheint ein klares Rückwandecho. Das Werkstück hat sich nicht verändert, aber die Schallübertragung ist besser geworden.</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Im A-Bild-Simulator kannst du das Signalrauschen verändern. Übertrage die Idee: Schlechte Kopplung macht Signale unsicherer und schwerer deutbar.</p>
+        <div class="toolchips"><a class="toolchip" href="#tool-ascan">A-Bild-Simulator</a><a class="toolchip" href="#kapitel">Kapitel-Selbstcheck</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Verständnisfrage</div>
+        <h4>Aufgabe 1</h4>
+        <p>Welche Aufgabe hat Koppelmittel?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Es sitzt zwischen Prüfkopf und Werkstück.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Es verdrängt Luft.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Es verbessert die Schallübertragung.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Koppelmittel verdrängt Luft zwischen Prüfkopf und Werkstück und verbessert dadurch die Übertragung des Ultraschalls in das Werkstück.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Anwendungsaufgabe</div>
+        <h4>Aufgabe 2</h4>
+        <p>Nenne drei Bedingungen für eine reproduzierbare Kopplung.</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Denk an Oberfläche.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Denk an Druck und Position.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Denk an Menge des Koppelmittels.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Reproduzierbar wird die Kopplung durch saubere Oberfläche, ähnliche Koppelmittelmenge, vergleichbaren Anpressdruck, gleiche Prüfkopfposition und ruhiges Aufsetzen.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Transfer</div>
+        <h4>Aufgabe 3</h4>
+        <p>Warum kann schlechte Kopplung wie eine Materialauffälligkeit wirken?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Das Signal wird schwächer oder instabil.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Echos können verschwinden.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Die Ursache liegt dann vor dem Werkstück.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Schlechte Kopplung verändert die Signalhöhe und Stabilität. Dadurch können Echos schwach erscheinen oder verschwinden. Ohne Kontrolle könnte man fälschlich eine Materialauffälligkeit vermuten.</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>Zu trocken messen.</li><li>Anpressdruck stark ändern.</li><li>Oberflächenzustand nicht erwähnen.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="An Luft-Metall-Grenzen wird viel Schall reflektiert; nur wenig gelangt ins Werkstück.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Warum ist Luft zwischen Prüfkopf und Metall problematisch?</p>
+        <div class="answers"><button data-correct="true">Luft koppelt Ultraschall schlecht in Metall ein.</button><button data-correct="false">Luft macht den Ultraschall schneller als Licht.</button><button data-correct="false">Luft löscht die Laufzeit vollständig.</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du weißt, dass Kopplung eine Messbedingung ist, die über Signalqualität entscheidet.</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Wie würdest du in einem Protokoll die Kopplung beschreiben?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP; DGZfP Ultraschallprüfung.</p>
+      </section>
+    </article>
+
+    <article class="chapter" id="kap9" data-title="Tauchtechnik Woche 8–9 Wasser als kontrolliertes Koppelmedium nutzen.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 8–9</span>
+          <h3>9. Tauchtechnik</h3>
+          <p>Wasser als kontrolliertes Koppelmedium nutzen.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap9"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du erklärst, warum Wasser als Koppelmedium genutzt wird.</li><li>Du berücksichtigst zusätzliche Laufzeiten im Wasser.</li><li>Du beschreibst Chancen und Grenzen der Tauchtechnik.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Ein empfindliches Bauteil soll automatisiert geprüft werden. Direktes Aufsetzen mit Gel ist unpraktisch. Wie kann Wasser helfen, und was muss man dann in der Laufzeit beachten?</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Bei der Tauchtechnik befinden sich Prüfkopf und Werkstück in Wasser oder werden über eine Wassersäule gekoppelt. Das Wasser sorgt für eine gleichmäßigere Kopplung und eignet sich für Scans. Allerdings läuft der Schall zuerst durch Wasser und erst dann durch das Werkstück. Laufzeitanteile müssen daher getrennt betrachtet werden.</p>
+        <div class="tagrow"><span class="tag">Tauchtechnik</span><span class="tag">Wasservorlauf</span><span class="tag">Grenzfläche</span><span class="tag">Scan</span><span class="tag">Koppelmedium</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Tauchtechnik macht Kopplung kontrollierbarer, aber die Laufzeit enthält zusätzlich den Weg im Wasser.</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Ein Schallweg im Wasser beträgt hin und zurück 20 mm. Bei <span class="formula" role="math" aria-label="c Wasser 1480 m/s"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><msub><mi>c</mi><mi>Wasser</mi></msub><mo>≈</mo><mn>1480</mn><mtext> m/s</mtext></mrow></math></span> dauert dieser Wasseranteil ungefähr <span class="formula" role="math" aria-label="Wasserlaufzeit 13,5 Mikrosekunden"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>t</mi><mo>=</mo><mfrac><mrow><mn>0,020</mn><mtext> m</mtext></mrow><mrow><mn>1480</mn><mtext> m/s</mtext></mrow></mfrac><mo>≈</mo><mn>13,5</mn><mtext> µs</mtext></mrow></math></span>. Dieser Anteil darf nicht als Werkstückdicke gerechnet werden.</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Nutze den Laufzeitrechner zuerst mit Wasser-c und dann mit Metall-c. So siehst du, warum Medien getrennt gerechnet werden müssen.</p>
+        <div class="toolchips"><a class="toolchip" href="#tool-tof">Laufzeit/Tiefe-Rechner</a><a class="toolchip" href="#tool-ascan">A-Bild-Simulator</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Rechenaufgabe</div>
+        <h4>Aufgabe 1</h4>
+        <p>Der Hin-und-Rückweg im Wasser beträgt 30 mm. c_Wasser = 1480 m/s. Wie lange dauert der Wasseranteil?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Zeit = Weg/Geschwindigkeit.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>30 mm sind 0,030 m.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>t in Sekunden, dann in µs umrechnen.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p><span class="formula" role="math" aria-label="t ungefähr 20,3 Mikrosekunden"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>t</mi><mo>=</mo><mfrac><mrow><mn>0,030</mn><mtext> m</mtext></mrow><mrow><mn>1480</mn><mtext> m/s</mtext></mrow></mfrac><mo>=</mo><mn>0,0000203</mn><mtext> s</mtext><mo>≈</mo><mn>20,3</mn><mtext> µs</mtext></mrow></math></span>. Der Wasseranteil beträgt etwa 20,3 µs.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Verständnisfrage</div>
+        <h4>Aufgabe 2</h4>
+        <p>Warum kann Tauchtechnik bei Scans vorteilhaft sein?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Abstand und Kopplung bleiben gleichmäßiger.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Automatisierung wird einfacher.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Empfindliche Oberflächen werden weniger belastet.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Wasser ermöglicht gleichmäßige Kopplung, definierte Abstände und automatisierte Scanbewegungen. Dadurch werden Messreihen reproduzierbarer.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Transfer</div>
+        <h4>Aufgabe 3</h4>
+        <p>Welche neue Fehlerquelle kommt durch Wasser hinzu?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Der Schall läuft auch im Wasser.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Grenzflächen reflektieren.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Temperatur beeinflusst c im Wasser.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Die zusätzliche Wasserlaufzeit muss berücksichtigt werden. Außerdem entstehen Echos an Grenzflächen, und die Schallgeschwindigkeit im Wasser hängt von Bedingungen wie Temperatur ab.</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>Wasserlaufzeit als Werkstücklaufzeit interpretieren.</li><li>Grenzflächenechos verwechseln.</li><li>Wasser-c und Metall-c mischen.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="Wasser verbessert die Kopplung, fügt aber eigene Laufzeit- und Grenzflächenanteile hinzu.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Was ist bei Tauchtechnik zusätzlich zu beachten?</p>
+        <div class="answers"><button data-correct="true">Der Schallweg im Wasser trägt zur gemessenen Laufzeit bei.</button><button data-correct="false">Wasser macht die Messung grundsätzlich ohne Kalibrierung exakt.</button><button data-correct="false">Es gibt keine Grenzflächen mehr.</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du kannst erklären, warum Tauchtechnik nützlich ist und warum Laufzeitanteile getrennt werden müssen.</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Welche Laufzeitanteile würdest du in einer Tauchtechnik-Messung getrennt notieren?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP; DGZfP Ultraschallprüfung.</p>
+      </section>
+    </article>
+
+    <article class="chapter" id="kap10" data-title="Winkelprüfköpfe Woche 10 Schräg einschallen, um ungünstige Fehlerlagen zu treffen.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 10</span>
+          <h3>10. Winkelprüfköpfe</h3>
+          <p>Schräg einschallen, um ungünstige Fehlerlagen zu treffen.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap10"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du erklärst den Zweck von Winkelprüfköpfen.</li><li>Du nutzt ein einfaches Brechungsmodell.</li><li>Du unterscheidest Tiefe, Schallweg und Oberflächenabstand.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Eine Schweißnaht lässt sich mit senkrechter Einschallung schlecht prüfen. Ein schräger Strahl könnte die Fehlerfläche besser treffen. Wie hängt der Einschallwinkel im Werkstoff vom Keil und vom Material ab?</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Winkelprüfköpfe leiten Schall schräg in das Werkstück ein. An der Grenzfläche zwischen Vorlaufkeil und Werkstoff wird der Schall gebrochen. Vereinfacht kann man mit einer Snellius-ähnlichen Beziehung arbeiten: <span class="formula" role="math" aria-label="Snellius-Gesetz für Schall"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mfrac><mrow><mi>sin</mi><mo>(</mo><msub><mi>α</mi><mn>1</mn></msub><mo>)</mo></mrow><msub><mi>c</mi><mn>1</mn></msub></mfrac><mo>=</mo><mfrac><mrow><mi>sin</mi><mo>(</mo><msub><mi>α</mi><mn>2</mn></msub><mo>)</mo></mrow><msub><mi>c</mi><mn>2</mn></msub></mfrac></mrow></math></span>. Für die geometrische Lage ist wichtig: Der Schallweg ist länger als die senkrechte Tiefe; im einfachen Modell gilt <span class="formula" role="math" aria-label="Schallweg s gleich Tiefe d durch cos alpha"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>s</mi><mo>=</mo><mfrac><mi>d</mi><mrow><mi>cos</mi><mo>(</mo><mi>α</mi><mo>)</mo></mrow></mfrac></mrow></math></span>.</p>
+        <div class="tagrow"><span class="tag">Winkelprüfkopf</span><span class="tag">Brechung</span><span class="tag">Schallweg</span><span class="tag">Sprungabstand</span><span class="tag">Schweißnaht</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Bei schrägem Schall sind Tiefe, Schallweg und Oberflächenabstand drei verschiedene Größen.</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Ein Schallstrahl läuft im Werkstoff unter 45°. Ein Reflektor liegt 10 mm tief. Dann ist der Schallweg <span class="formula" role="math" aria-label="s ungefähr 14,1 Millimeter"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>s</mi><mo>=</mo><mfrac><mrow><mn>10</mn><mtext> mm</mtext></mrow><mrow><mi>cos</mi><mo>(</mo><mn>45°</mn><mo>)</mo></mrow></mfrac><mo>≈</mo><mn>14,1</mn><mtext> mm</mtext></mrow></math></span>. Der Oberflächenabstand beträgt bei 45° ebenfalls etwa 10 mm.</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Nutze das Tool „Winkelprüfkopf“. Es zeigt berechneten Winkel, Tiefe, Schallweg und Oberflächenabstand in einem Diagramm mit Skalen.</p>
+        <div class="toolchips"><a class="toolchip" href="#tool-angle">Winkelprüfkopf-Geometrie</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Rechenaufgabe</div>
+        <h4>Aufgabe 1</h4>
+        <p>Ein Reflektor liegt 12 mm tief, der Strahlwinkel im Material sei 60°. Berechne den Schallweg bis zum Reflektor.</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Nutze s = d/cos(α).</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>cos(60°) = 0,5.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Teile 12 mm durch 0,5.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p><span class="formula" role="math" aria-label="s gleich 24 Millimeter"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>s</mi><mo>=</mo><mfrac><mrow><mn>12</mn><mtext> mm</mtext></mrow><mrow><mi>cos</mi><mo>(</mo><mn>60°</mn><mo>)</mo></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>12</mn><mtext> mm</mtext></mrow><mn>0,5</mn></mfrac><mo>=</mo><mn>24</mn><mtext> mm</mtext></mrow></math></span>. Der Schallweg bis zum Reflektor beträgt 24 mm.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Verständnisfrage</div>
+        <h4>Aufgabe 2</h4>
+        <p>Warum sind Winkelprüfköpfe besonders bei Schweißnähten nützlich?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Fehlerflächen können ungünstig orientiert sein.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Schräger Schall trifft andere Flächen.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Senkrechte Einschallung liefert nicht immer starke Reflexionen.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Schweißnahtfehler oder Bindefehler können so liegen, dass senkrechter Schall nicht günstig reflektiert wird. Schräge Einschallung erhöht die Chance, relevante Flächen zu treffen.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Transfer</div>
+        <h4>Aufgabe 3</h4>
+        <p>Warum reicht bei Winkelprüfung eine einfache Tiefenformel oft nicht aus?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Der Schall läuft schräg.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Oberflächenabstand und Tiefe hängen von Geometrie ab.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Es können Reflexionen an der Rückwand auftreten.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Bei schräger Einschallung muss die Geometrie berücksichtigt werden. Echozeit liefert einen Schallweg, aber die Lage ergibt sich erst über Winkel, Tiefe, Oberflächenabstand und mögliche Reflexionen.</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>Schallweg mit senkrechter Tiefe verwechseln.</li><li>Brechung ignorieren.</li><li>Winkel ohne Wellenart/Materialangabe vergleichen.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="Winkelprüfköpfe nutzen schräge Einschallung, häufig über Brechung im Keil.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Was unterscheidet Winkelprüfung vom Normalprüfkopf besonders?</p>
+        <div class="answers"><button data-correct="true">Der Schall läuft schräg im Werkstoff.</button><button data-correct="false">Es wird kein Ultraschall verwendet.</button><button data-correct="false">Die Laufzeit spielt keine Rolle mehr.</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du kannst begründen, warum Winkelprüfköpfe eingesetzt werden, und einfache geometrische Größen unterscheiden.</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Welche Größe würdest du im Prüfprotokoll zusätzlich zur Tiefe notieren?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP; DGZfP Ultraschallprüfung.</p>
+      </section>
+    </article>
+
+    <article class="chapter" id="kap11" data-title="Justieren und Referenzkörper Woche 11 Vor der Messung das System auf bekannte Größen einstellen.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 11</span>
+          <h3>11. Justieren und Referenzkörper</h3>
+          <p>Vor der Messung das System auf bekannte Größen einstellen.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap11"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du erklärst Justierung als Abgleich mit bekannten Referenzen.</li><li>Du erkennst den Unterschied zwischen Messen und Einstellen.</li><li>Du beschreibst eine Checkliste vor der Prüfung.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Das Gerät zeigt bei einem bekannten 20-mm-Referenzkörper 21 mm an. Ist das Bauteil falsch, oder muss zuerst das Messsystem justiert werden?</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Justieren bedeutet, das Messsystem so einzustellen, dass bekannte Referenzen korrekt angezeigt werden. Dazu können Referenzkörper, bekannte Dicken, bekannte Bohrungen oder definierte Reflektoren genutzt werden. Erst nach einer passenden Justierung sind Messwerte am unbekannten Werkstück sinnvoll bewertbar.</p>
+        <div class="tagrow"><span class="tag">Justierung</span><span class="tag">Referenzkörper</span><span class="tag">Empfindlichkeit</span><span class="tag">Zeitbasis</span><span class="tag">Kalibrierung</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Erst am Bekannten prüfen, dann am Unbekannten messen.</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Ein Gerät zeigt an einem 20,0-mm-Referenzkörper 21,0 mm. Der relative Fehler beträgt 5 %. Ohne Justierung würdest du diesen Fehler auf alle weiteren Messungen übertragen. Die richtige Reaktion ist: Einstellungen prüfen, c-Wert und Zeitbasis abgleichen, dann erneut messen.</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Nutze „Messunsicherheit“ und trage mehrere Referenzmessungen ein. Sind die Werte stabil oder streuen sie stark?</p>
+        <div class="toolchips"><a class="toolchip" href="#tool-speed">c-Rechner</a><a class="toolchip" href="#tool-uncertainty">Messunsicherheit</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Analyse</div>
+        <h4>Aufgabe 1</h4>
+        <p>Was würdest du prüfen, wenn ein Referenzkörper falsch angezeigt wird?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>c-Wert.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Zeitbasis/Nullpunkt.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Kopplung und Prüfkopf.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Ich prüfe die eingestellte Schallgeschwindigkeit, den Nullpunkt beziehungsweise Vorlauf, Zeitbasis/Skalierung, Kopplung, Prüfkopfzustand und ob der richtige Referenzkörper verwendet wurde.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Rechenaufgabe</div>
+        <h4>Aufgabe 2</h4>
+        <p>Ein 10,0-mm-Referenzkörper wird als 10,4 mm angezeigt. Wie groß ist die relative Abweichung?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Abweichung = 0,4 mm.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>relative Abweichung = Abweichung/Sollwert.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>In Prozent mit 100 multiplizieren.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p><span class="formula" role="math" aria-label="relative Abweichung 4 Prozent"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mfrac><mrow><mn>0,4</mn><mtext> mm</mtext></mrow><mrow><mn>10,0</mn><mtext> mm</mtext></mrow></mfrac><mo>·</mo><mn>100</mn><mtext> %</mtext><mo>=</mo><mn>4</mn><mtext> %</mtext></mrow></math></span>. Die Anzeige weicht um 4 % vom Sollwert ab.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Transfer</div>
+        <h4>Aufgabe 3</h4>
+        <p>Warum sollte man eine Empfindlichkeitsänderung dokumentieren?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Sie verändert Echohöhen.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Vergleichbarkeit geht sonst verloren.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Andere müssen die Messung nachvollziehen.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Die Empfindlichkeit beeinflusst die Echohöhe. Wenn sie verändert wird, sind Anzeigen vor und nach der Änderung nur noch mit Dokumentation vergleichbar.</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>Referenzmessung überspringen.</li><li>Empfindlichkeit heimlich ändern.</li><li>Justierung und Bewertung vermischen.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="Justierung ist der Abgleich mit bekannten Referenzen.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Was ist eine gute Kurzformel für Justierung?</p>
+        <div class="answers"><button data-correct="true">Am Bekannten einstellen, dann am Unbekannten messen.</button><button data-correct="false">Am Unbekannten raten, dann am Bekannten prüfen.</button><button data-correct="false">Nur die Echohöhe lauter drehen.</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du verstehst Justierung als Voraussetzung für belastbare Messungen.</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Welche Referenz würdest du vor einer Wanddickenmessung verwenden?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP; DGZfP Ultraschallprüfung.</p>
+      </section>
+    </article>
+
+    <article class="chapter" id="kap12" data-title="Laserlicht und Interferenz Woche 12 Wie Lichtwellen kleinste Wegänderungen sichtbar machen.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 12</span>
+          <h3>12. Laserlicht und Interferenz</h3>
+          <p>Wie Lichtwellen kleinste Wegänderungen sichtbar machen.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap12"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du erklärst konstruktive und destruktive Interferenz.</li><li>Du beschreibst Kohärenz und Gangunterschied in einfachen Worten.</li><li>Du nennst grundlegende Lasersicherheitsregeln.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Auf einem Schirm wechseln helle und dunkle Bereiche. Es wurde aber nur Licht überlagert. Wie kann sich Licht durch Licht verstärken oder abschwächen?</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Interferenz entsteht, wenn Wellen überlagert werden. Treffen Wellenberge passend zusammen, wird es heller; treffen Berg und Tal passend zusammen, wird es dunkler. Entscheidend ist der <b>Gangunterschied</b>, also der Unterschied der optischen Wege. Laserlicht ist für Interferenzversuche besonders geeignet, weil es meist gut gebündelt und kohärent ist. Im Labor gilt: Nie in den direkten oder reflektierten Laserstrahl blicken.</p>
+        <div class="tagrow"><span class="tag">Laser</span><span class="tag">Interferenz</span><span class="tag">Kohärenz</span><span class="tag">Gangunterschied</span><span class="tag">Phase</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Interferenz ist kein „Licht verschwindet“, sondern Überlagerung von Wellen mit bestimmter Phasenlage.</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Wenn sich der optische Weg um eine ganze Wellenlänge ändert, erscheint wieder derselbe Interferenzzustand. Bei einer Wellenlänge von <span class="formula" role="math" aria-label="lambda 632,8 nm"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>λ</mi><mo>=</mo><mn>632,8</mn><mtext> nm</mtext></mrow></math></span> sind bereits Bruchteile eines Mikrometers messbar relevant.</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Nutze das Michelson-Tool und betrachte die Intensitätskurve. Die Achsen zeigen Spiegelweg in µm und relative Intensität in Prozent.</p>
+        <div class="toolchips"><a class="toolchip" href="#tool-michelson">Michelson-Rechner</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Verständnisfrage</div>
+        <h4>Aufgabe 1</h4>
+        <p>Was bedeutet konstruktive Interferenz?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Wellenberge passen zusammen.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Die Amplitude wird größer.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Auf dem Schirm wirkt es heller.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Konstruktive Interferenz bedeutet, dass Wellen phasengleich zusammentreffen und sich verstärken. Im Lichtversuch wird es heller.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Analyse</div>
+        <h4>Aufgabe 2</h4>
+        <p>Warum ist ein Laser für Interferenzversuche nützlich?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Kohärenz.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Bündelung.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Stabile Wellenlänge.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Laserlicht ist oft gut gebündelt, besitzt eine relativ definierte Wellenlänge und eine für den Versuch ausreichende Kohärenz. Dadurch bleibt das Interferenzmuster beobachtbar.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Sicherheit</div>
+        <h4>Aufgabe 3</h4>
+        <p>Nenne zwei Sofortregeln beim Umgang mit Lasern.</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Augen schützen.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Reflexionen beachten.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Optische Instrumente sind gefährlich.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Nicht in den direkten oder reflektierten Strahl blicken. Den Strahl nicht auf Personen oder spiegelnde Flächen richten und keine optischen Instrumente in den Strahl halten.</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>Interferenz mit Schatten verwechseln.</li><li>Laserstrahlung unterschätzen.</li><li>Gangunterschied nur geometrisch, nicht optisch denken.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="Der Gangunterschied bestimmt, ob die Teilwellen verstärken oder abschwächen.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Was ist ein Gangunterschied?</p>
+        <div class="answers"><button data-correct="true">Unterschied der optischen Wege zweier Teilwellen.</button><button data-correct="false">Unterschied zwischen zwei Schulfluren.</button><button data-correct="false">Die Lautstärke eines Lasers.</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du verstehst Interferenz als Wellenüberlagerung und kennst grundlegende Lasersicherheit.</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Warum können schon sehr kleine Wegänderungen ein Interferenzmuster verändern?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP; LEIFIphysik Interferometer; BfS Laserschutz.</p>
+      </section>
+    </article>
+
+    <article class="chapter" id="kap13" data-title="Michelson-Interferometer: Aufbau und Strahlwege Woche 13–14 Laser, Strahlteiler, Spiegel und die doppelte Wegänderung.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 13–14</span>
+          <h3>13. Michelson-Interferometer: Aufbau und Strahlwege</h3>
+          <p>Laser, Strahlteiler, Spiegel und die doppelte Wegänderung.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap13"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du benennst die Hauptbauteile eines Michelson-Interferometers.</li><li>Du erklärst die doppelte optische Wegänderung bei Spiegelbewegung.</li><li>Du skizzierst den Strahlweg sprachlich korrekt.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Ein Spiegel wird nur 0,3 µm verschoben. Warum zählt das Interferometer eine optische Wegänderung von 0,6 µm?</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Im Michelson-Interferometer wird ein Lichtstrahl am Strahlteiler in zwei Arme aufgeteilt. Jeder Teilstrahl läuft zu einem Spiegel und zurück. Danach werden beide Teilstrahlen wieder überlagert. Wird ein Spiegel um <span class="formula" role="math" aria-label="Delta L"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>Δ</mi><mi>L</mi></mrow></math></span> verschoben, verlängert sich in diesem Arm Hinweg und Rückweg. Der optische Weg ändert sich daher um <span class="formula" role="math" aria-label="zwei Delta L"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mn>2</mn><mrow><mi>Δ</mi><mi>L</mi></mrow></mrow></math></span>.</p>
+        <div class="tagrow"><span class="tag">Strahlteiler</span><span class="tag">Spiegelarm</span><span class="tag">Referenzarm</span><span class="tag">Messarm</span><span class="tag">Detektor/Schirm</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Beim Michelson zählt eine Spiegelverschiebung doppelt, weil Licht hin und zurück läuft.</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Ein Spiegel wird um <span class="formula" role="math" aria-label="Delta L 0,316 µm"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mrow><mi>Δ</mi><mi>L</mi></mrow><mo>=</mo><mn>0,316</mn><mtext> µm</mtext></mrow></math></span> verschoben. Dann ändert sich der optische Weg um <span class="formula" role="math" aria-label="optischer Weg 0,632 µm"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mn>2</mn><mrow><mi>Δ</mi><mi>L</mi></mrow><mo>=</mo><mn>0,632</mn><mtext> µm</mtext></mrow></math></span>. Bei rotem He-Ne-Licht entspricht das ungefähr einer Wellenlänge.</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Nutze den Michelson-Rechner. Stelle λ = 632,8 nm ein und prüfe, wie viele Fransenwechsel bei 1 µm Spiegelweg auftreten.</p>
+        <div class="toolchips"><a class="toolchip" href="#tool-michelson">Michelson-Rechner</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Verständnisfrage</div>
+        <h4>Aufgabe 1</h4>
+        <p>Welche Aufgabe hat der Strahlteiler?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Er teilt den Lichtstrahl.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Er führt Teilstrahlen später wieder zusammen.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Beide Arme können verglichen werden.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Der Strahlteiler teilt den einfallenden Laserstrahl in zwei Teilstrahlen und ermöglicht später ihre Überlagerung.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Rechenaufgabe</div>
+        <h4>Aufgabe 2</h4>
+        <p>Ein Spiegel bewegt sich um 0,50 µm. Wie stark ändert sich der optische Weg dieses Arms?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Hinweg und Rückweg ändern sich.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Multipliziere mit 2.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Einheit bleibt µm.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p><span class="formula" role="math" aria-label="optische Wegänderung 1 Mikrometer"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mrow><mi>Δ</mi><msub><mi>s</mi><mi>opt</mi></msub></mrow><mo>=</mo><mn>2</mn><mo>·</mo><mn>0,50</mn><mtext> µm</mtext><mo>=</mo><mn>1,00</mn><mtext> µm</mtext></mrow></math></span>. Der optische Weg ändert sich um 1,00 µm.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Transfer</div>
+        <h4>Aufgabe 3</h4>
+        <p>Warum ist das Michelson-Interferometer empfindlich für Erschütterungen?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Erschütterungen verändern Spiegelpositionen.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Schon kleine Wegänderungen ändern die Phase.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Das Muster verschiebt sich.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Erschütterungen ändern die optischen Wege in den Armen. Da schon Bruchteile einer Wellenlänge das Muster verändern, können mechanische Störungen stark sichtbar werden.</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>Spiegelweg und optische Wegänderung gleichsetzen.</li><li>Strahlteiler als einfachen Spiegel beschreiben.</li><li>Messarm und Referenzarm nicht unterscheiden.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="Der Spiegelarm wird auf Hin- und Rückweg länger oder kürzer.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Warum zählt eine Spiegelverschiebung im Michelson doppelt?</p>
+        <div class="answers"><button data-correct="true">Weil der Lichtweg zum Spiegel und zurück betroffen ist.</button><button data-correct="false">Weil es zwei Laser gibt.</button><button data-correct="false">Weil Licht doppelt so schnell wird.</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du kannst den Michelson-Aufbau erklären und die doppelte Wegänderung begründen.</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Welche Bauteile würdest du in einer Skizze unbedingt beschriften?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP; LEIFIphysik Interferometer; PTB Längeneinheit und Längenmessung.</p>
+      </section>
+    </article>
+
+    <article class="chapter" id="kap14" data-title="Längenänderungen mit Fransen zählen Woche 15 Aus Hell-Dunkel-Wechseln wird ein Mikrometerwert.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 15</span>
+          <h3>14. Längenänderungen mit Fransen zählen</h3>
+          <p>Aus Hell-Dunkel-Wechseln wird ein Mikrometerwert.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap14"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du berechnest Spiegelverschiebungen aus Fransenwechseln.</li><li>Du gibst Ergebnisse sinnvoll in nm und µm an.</li><li>Du erkennst typische Zählfehler.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Während ein Spiegel bewegt wird, wandern 20 Fransen vorbei. Wie groß war die Spiegelbewegung?</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Ein Fransenwechsel entspricht einer Änderung des optischen Weges um eine Wellenlänge. Beim Michelson entsteht durch Spiegelbewegung die doppelte optische Wegänderung. Daher gilt für die Spiegelverschiebung <span class="formula" role="math" aria-label="Delta L gleich N mal Lambda durch 2"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mrow><mi>Δ</mi><mi>L</mi></mrow><mo>=</mo><mfrac><mrow><mi>N</mi><mo>·</mo><mi>λ</mi></mrow><mn>2</mn></mfrac></mrow></math></span>.</p>
+        <div class="tagrow"><span class="tag">Fransenwechsel</span><span class="tag">Spiegelverschiebung</span><span class="tag">Wellenlänge λ</span><span class="tag">Nanometer</span><span class="tag">Mikrometer</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Beim Michelson gilt: Ein Fransenwechsel entspricht einer Spiegelbewegung von λ/2.</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Bei <span class="formula" role="math" aria-label="lambda 632,8 nm"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>λ</mi><mo>=</mo><mn>632,8</mn><mtext> nm</mtext></mrow></math></span> und <span class="formula" role="math" aria-label="N gleich 20"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>N</mi><mo>=</mo><mn>20</mn></mrow></math></span> ist <span class="formula" role="math" aria-label="Delta L gleich 6,328 Mikrometer"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mrow><mi>Δ</mi><mi>L</mi></mrow><mo>=</mo><mfrac><mrow><mn>20</mn><mo>·</mo><mn>632,8</mn><mtext> nm</mtext></mrow><mn>2</mn></mfrac><mo>=</mo><mn>6328</mn><mtext> nm</mtext><mo>=</mo><mn>6,328</mn><mtext> µm</mtext></mrow></math></span>. Antwort: Der Spiegel wurde um 6,328 µm verschoben.</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Nutze den Michelson-Rechner. Verändere N und prüfe, dass ΔL proportional zu N ist.</p>
+        <div class="toolchips"><a class="toolchip" href="#tool-michelson">Michelson-Rechner</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Rechenaufgabe</div>
+        <h4>Aufgabe 1</h4>
+        <p>λ = 532 nm, N = 15. Berechne ΔL.</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Nutze ΔL = N · λ / 2.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>15 · 532 = 7980 nm.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Durch 2 teilen.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p><span class="formula" role="math" aria-label="Delta L gleich 3,990 Mikrometer"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mrow><mi>Δ</mi><mi>L</mi></mrow><mo>=</mo><mfrac><mrow><mn>15</mn><mo>·</mo><mn>532</mn><mtext> nm</mtext></mrow><mn>2</mn></mfrac><mo>=</mo><mn>3990</mn><mtext> nm</mtext><mo>=</mo><mn>3,990</mn><mtext> µm</mtext></mrow></math></span>. Die Spiegelverschiebung beträgt 3,990 µm.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Analyse</div>
+        <h4>Aufgabe 2</h4>
+        <p>Welche Fehler können beim Fransen zählen auftreten?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Start/Ende unklar.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Erschütterungen.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Helligkeit ändert sich nicht ideal.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Man kann Fransen doppelt zählen, halbe Wechsel übersehen, Start- und Endpunkt unsauber festlegen oder durch Erschütterungen und Luftbewegungen zusätzliche Musterbewegungen sehen.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Transfer</div>
+        <h4>Aufgabe 3</h4>
+        <p>Warum sollte man mehrere Messläufe mitteln?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Zählfehler streuen.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Erschütterungen sind nicht immer gleich.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Mittelwerte stabilisieren das Ergebnis.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Mehrere Messläufe machen zufällige Abweichungen sichtbar. Ein Mittelwert mit Streuung ist aussagekräftiger als ein einzelner Zählwert.</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>N mit λ multiplizieren, aber nicht durch 2 teilen.</li><li>nm und µm verwechseln.</li><li>Zu viele Nachkommastellen trotz unsicherer Zählung angeben.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="Bei Spiegelbewegung zählt der optische Weg doppelt, daher N · λ / 2.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Welche Formel passt zur Spiegelverschiebung beim Michelson?</p>
+        <div class="answers"><button data-correct="true">ΔL = N · λ / 2</button><button data-correct="false">d = c · Δt / 2</button><button data-correct="false">c = λ · f / 2</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du kannst Fransenwechsel in Längenänderungen umrechnen und die Einheit sauber angeben.</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Warum ist die Einheit nm für Licht, aber µm für Spiegelwege oft praktisch?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP; LEIFIphysik Interferometer; PTB Längenmessung.</p>
+      </section>
+    </article>
+
+    <article class="chapter" id="kap15" data-title="Gase und Flüssigkeiten im Interferometer Woche 16 Brechungsindexänderungen als optische Wegänderungen messen.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 16</span>
+          <h3>15. Gase und Flüssigkeiten im Interferometer</h3>
+          <p>Brechungsindexänderungen als optische Wegänderungen messen.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap15"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du erklärst den optischen Weg in einem Medium.</li><li>Du berechnest in einem einfachen Modell Fransenverschiebungen durch Δn.</li><li>Du unterscheidest geometrische Länge und optische Wirkung.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Eine Küvette im Interferometer wird mit einer anderen Flüssigkeit gefüllt. Kein Spiegel wurde bewegt, aber das Muster verschiebt sich. Was hat sich geändert?</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Licht legt in Medien nicht nur eine geometrische Strecke zurück. Entscheidend ist der <b>optische Weg</b>, der vom Brechungsindex abhängt. Ändert sich der Brechungsindex in einem Arm, ändert sich der optische Weg und damit die Interferenz. In einem einfachen Doppelpass-Modell gilt <span class="formula" role="math" aria-label="optische Wegänderung gleich zwei L mal Delta n"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mrow><mi>Δ</mi><msub><mi>s</mi><mi>opt</mi></msub></mrow><mo>=</mo><mn>2</mn><mi>L</mi><mo>·</mo><mrow><mi>Δ</mi><mi>n</mi></mrow></mrow></math></span> und <span class="formula" role="math" aria-label="N gleich optische Wegänderung durch Lambda"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>N</mi><mo>=</mo><mfrac><mrow><mi>Δ</mi><msub><mi>s</mi><mi>opt</mi></msub></mrow><mi>λ</mi></mfrac></mrow></math></span>.</p>
+        <div class="tagrow"><span class="tag">Brechungsindex n</span><span class="tag">optischer Weg</span><span class="tag">Küvette</span><span class="tag">Δn</span><span class="tag">Doppelpass</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Ein Medium kann das Interferenzmuster verschieben, ohne dass sich ein Spiegel bewegt.</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Eine 10 mm lange Küvette wird im Doppelpass durchlaufen. Der Brechungsindex ändert sich um Δn = 0,00010. Dann <span class="formula" role="math" aria-label="Delta s optisch 2000 nm"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mrow><mi>Δ</mi><msub><mi>s</mi><mi>opt</mi></msub></mrow><mo>=</mo><mn>2</mn><mo>·</mo><mn>10</mn><mtext> mm</mtext><mo>·</mo><mn>0,00010</mn><mo>=</mo><mn>0,002</mn><mtext> mm</mtext><mo>=</mo><mn>2000</mn><mtext> nm</mtext></mrow></math></span>. Bei λ = 632,8 nm wären das <span class="formula" role="math" aria-label="N ungefähr 3,16"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>N</mi><mo>=</mo><mfrac><mrow><mn>2000</mn><mtext> nm</mtext></mrow><mrow><mn>632,8</mn><mtext> nm</mtext></mrow></mfrac><mo>≈</mo><mn>3,16</mn></mrow></math></span>.</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Nutze das Tool „Medium/Δn“. Vergrößere die Küvettenlänge und beobachte, wie die Fransenverschiebung wächst.</p>
+        <div class="toolchips"><a class="toolchip" href="#tool-medium">Medium/Δn-Rechner</a><a class="toolchip" href="#tool-michelson">Michelson-Rechner</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Rechenaufgabe</div>
+        <h4>Aufgabe 1</h4>
+        <p>L = 20 mm, Δn = 0,00005, λ = 500 nm. Wie viele Fransen im Doppelpass?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Berechne Δs_opt = 2LΔn.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>20 mm = 20 000 000 nm; oder rechne mm und wandle um.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>N = Δs_opt/λ.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Doppelpass: <span class="formula" role="math" aria-label="Delta s optisch 2000 nm"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mrow><mi>Δ</mi><msub><mi>s</mi><mi>opt</mi></msub></mrow><mo>=</mo><mn>2</mn><mo>·</mo><mn>20</mn><mtext> mm</mtext><mo>·</mo><mn>0,00005</mn><mo>=</mo><mn>0,002</mn><mtext> mm</mtext><mo>=</mo><mn>2000</mn><mtext> nm</mtext></mrow></math></span>. Daher <span class="formula" role="math" aria-label="N gleich 4"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>N</mi><mo>=</mo><mfrac><mrow><mn>2000</mn><mtext> nm</mtext></mrow><mrow><mn>500</mn><mtext> nm</mtext></mrow></mfrac><mo>=</mo><mn>4</mn></mrow></math></span>. Es verschieben sich etwa 4 Fransen.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Verständnisfrage</div>
+        <h4>Aufgabe 2</h4>
+        <p>Was ist der Unterschied zwischen geometrischer Länge und optischem Weg?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Geometrische Länge ist die Strecke.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Optischer Weg berücksichtigt das Medium.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Der Brechungsindex verändert die Phase.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Die geometrische Länge ist die reine Strecke. Der optische Weg berücksichtigt zusätzlich den Brechungsindex des Mediums und beschreibt, wie stark sich die Phase des Lichts verändert.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Transfer</div>
+        <h4>Aufgabe 3</h4>
+        <p>Warum muss man Temperatur bei Gasen/Flüssigkeiten beachten?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Temperatur beeinflusst Dichte.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Dichte beeinflusst Brechungsindex.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Damit verschiebt sich das Muster.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Temperaturänderungen können Dichte und Brechungsindex verändern. Dadurch ändern sie den optischen Weg und können wie eine Materialänderung wirken.</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>Geometrischen und optischen Weg gleichsetzen.</li><li>Einfach- und Doppelpass verwechseln.</li><li>Δn ohne Vorzeichen/Bedingungen betrachten.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="Der Brechungsindex verändert die optische Weglänge und damit die Phase.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Warum kann ein Medium Fransen verschieben?</p>
+        <div class="answers"><button data-correct="true">Weil es den optischen Weg in einem Interferometerarm verändert.</button><button data-correct="false">Weil es den Laser ausschaltet.</button><button data-correct="false">Weil es Ultraschall erzeugt.</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du kannst einfache Brechungsindexänderungen als optische Wegänderungen deuten und berechnen.</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Welche Messbedingung würdest du bei Flüssigkeiten besonders konstant halten?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP; PTB Längenmessung; LEIFIphysik Interferometer.</p>
+      </section>
+    </article>
+
+    <article class="chapter" id="kap16" data-title="Auswerten und Dokumentieren Woche 17 Messdaten so darstellen, dass andere sie prüfen können.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 17</span>
+          <h3>16. Auswerten und Dokumentieren</h3>
+          <p>Messdaten so darstellen, dass andere sie prüfen können.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap16"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du strukturierst ein Laborprotokoll.</li><li>Du berechnest Mittelwert und Streuung für einfache Messreihen.</li><li>Du formulierst Ergebnis und Fehlerquellen nachvollziehbar.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Du hast fünf Dickenwerte gemessen. Ein Wert weicht ab. Wie entscheidest du, ob du ihn ignorierst, wiederholst oder besonders dokumentierst?</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Technische Messungen müssen nachvollziehbar dokumentiert werden. Dazu gehören Fragestellung, Aufbau, Messbedingungen, Rohdaten mit Einheiten, Auswertung, Ergebnis, Unsicherheit und Bewertung. Für Messreihen ist der Mittelwert nützlich: <span class="formula" role="math" aria-label="Mittelwert"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mover><mi>x</mi><mo>¯</mo></mover><mo>=</mo><mfrac><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><mo>…</mo><mo>+</mo><msub><mi>x</mi><mi>n</mi></msub></mrow><mi>n</mi></mfrac></mrow></math></span>. Unsicherheiten sollen nicht versteckt werden; sie helfen, die Aussagekraft einzuschätzen.</p>
+        <div class="tagrow"><span class="tag">Rohdaten</span><span class="tag">Mittelwert</span><span class="tag">Streuung</span><span class="tag">Messunsicherheit</span><span class="tag">Prüfbericht</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Ein gutes Ergebnis besteht aus Zahl, Einheit, Bedingungen und ehrlicher Unsicherheit.</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Dickenmesswerte: 5,1 mm, 5,2 mm, 5,1 mm, 5,3 mm, 5,2 mm. Der Mittelwert ist 5,18 mm. Sinnvoll formuliert: „Die Wanddicke beträgt an den Messpunkten im Mittel etwa 5,2 mm; die Werte streuen im Bereich von 5,1 mm bis 5,3 mm.“</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Nutze das Tool „Messunsicherheit“ und trage eigene Messreihen ein. Prüfe, ob die Streuung im Verhältnis zum Mittelwert klein oder groß ist.</p>
+        <div class="toolchips"><a class="toolchip" href="#tool-uncertainty">Messunsicherheit</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Rechenaufgabe</div>
+        <h4>Aufgabe 1</h4>
+        <p>Berechne den Mittelwert von 4,9 mm, 5,0 mm, 5,2 mm, 5,1 mm.</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Addiere alle Werte.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Teile durch 4.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Einheit mm bleibt.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p><span class="formula" role="math" aria-label="Mittelwert 5,05 mm"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mover><mi>x</mi><mo>¯</mo></mover><mo>=</mo><mfrac><mrow><mn>4,9</mn><mo>+</mo><mn>5,0</mn><mo>+</mo><mn>5,2</mn><mo>+</mo><mn>5,1</mn></mrow><mn>4</mn></mfrac><mtext> mm</mtext><mo>=</mo><mn>5,05</mn><mtext> mm</mtext></mrow></math></span>. Der Mittelwert beträgt 5,05 mm.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Verständnisfrage</div>
+        <h4>Aufgabe 2</h4>
+        <p>Warum gehören Rohdaten in ein Protokoll?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Andere sollen die Auswertung prüfen können.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Rundungs- oder Ablesefehler werden sichtbar.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Rohdaten machen die Aussage nachvollziehbar.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Rohdaten ermöglichen es, die Auswertung nachzuvollziehen, Fehler zu erkennen und spätere Vergleiche anzustellen. Nur ein Endwert ist zu wenig.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Transfer</div>
+        <h4>Aufgabe 3</h4>
+        <p>Wie formulierst du eine Fehlerquelle, ohne dich herauszureden?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Beschreibe konkret.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Sage, wie sie das Ergebnis beeinflussen kann.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Nenne eine Verbesserung.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Zum Beispiel: „Unterschiedlicher Anpressdruck am Prüfkopf kann die Echohöhe und Stabilität beeinflusst haben. Für bessere Vergleichbarkeit sollte eine definierte Messposition und möglichst gleicher Druck verwendet werden.“</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>Einheiten in Tabellen vergessen.</li><li>Ausreißer heimlich löschen.</li><li>Endergebnis mit mehr Stellen angeben als die Messung hergibt.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="Nachvollziehbarkeit braucht Daten, Bedingungen, Auswertung und Grenzen.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Was gehört zu einem nachvollziehbaren Messergebnis?</p>
+        <div class="answers"><button data-correct="true">Zahl, Einheit, Messbedingungen und Unsicherheit.</button><button data-correct="false">Nur eine möglichst genaue Zahl.</button><button data-correct="false">Nur ein Foto vom Gerät.</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du kannst Messdaten auswerten, sauber dokumentieren und Unsicherheiten sinnvoll beschreiben.</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Welche Rohdaten würdest du im nächsten Versuch unbedingt tabellarisch erfassen?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP; KMK-Kompetenzen Arbeitsabläufe und Prüfergebnisse dokumentieren; allgemeine Messauswertung.</p>
+      </section>
+    </article>
+
+    <article class="chapter" id="kap17" data-title="Transfer: Echoverfahren und Interferenz vergleichen Woche 18 Beide Verfahren als Wellenmessungen verstehen.">
+      <div class="chapter-head">
+        <div>
+          <span class="week-badge">Woche 18</span>
+          <h3>17. Transfer: Echoverfahren und Interferenz vergleichen</h3>
+          <p>Beide Verfahren als Wellenmessungen verstehen.</p>
+        </div>
+        <label class="progress-toggle"><input type="checkbox" class="done" data-id="kap17"> verstanden</label>
+      </div>
+      <div class="chapter-grid">
+        <section class="learn-box">
+          <h4>Lernziele in Schülersprache</h4>
+          <ul><li>Du vergleichst Ultraschall- und Lasertechnik fachlich.</li><li>Du wählst ein Verfahren passend zur Prüffrage aus.</li><li>Du formulierst den roten Faden des Halbjahrs.</li></ul>
+        </section>
+        <section class="learn-box problem">
+          <h4>Einstiegssituation / Problemfrage</h4>
+          <p>Du sollst entweder eine innere Fehlstelle in Metall finden oder eine mikroskopische Längenänderung messen. Welches Verfahren wählst du und warum?</p>
+        </section>
+      </div>
+      <section class="script-section">
+        <h4>Grundwissen verständlich erklärt</h4>
+        <p>Ultraschalltechnik und Laserinterferometrie wirken zunächst sehr verschieden. Gemeinsam ist aber der Wellenblick: Ein Signal breitet sich aus, wird reflektiert, überlagert oder verändert, und aus der Veränderung wird auf eine technische Größe geschlossen. Ultraschall eignet sich besonders für innere Werkstückinformationen und Wanddicken. Interferometrie eignet sich für sehr kleine Weg- oder Brechungsindexänderungen.</p>
+        <div class="tagrow"><span class="tag">Verfahrenswahl</span><span class="tag">Messprinzip</span><span class="tag">Signal</span><span class="tag">Modell</span><span class="tag">Transfer</span></div>
+      </section>
+      <aside class="memory"><b>Merksatz:</b> Erst Prüffrage, dann Verfahren: Nicht die spannendste Technik gewinnt, sondern die passende.</aside>
+      <section class="script-section example">
+        <h4>Beispielrechnung oder Beispielaufgabe</h4>
+        <p>Für eine unbekannte Wanddicke eines Metallrohres ist Ultraschall naheliegend, weil Laufzeit und Rückwandecho direkt zur Dicke führen. Für die Ausdehnung eines Bauteils im Mikrometerbereich ist ein Interferometer naheliegend, weil kleine Wegänderungen als Fransenwechsel sichtbar werden.</p>
+      </section>
+      <section class="script-section action-box">
+        <h4>Interaktive Übung / passendes Tool</h4>
+        <p>Nutze die Vergleichstabelle und das Abschlussquiz. Markiere die Kapitel, bei denen du noch unsicher bist.</p>
+        <div class="toolchips"><a class="toolchip" href="#vergleich">Vergleichstabelle</a><a class="toolchip" href="#abschlussquiz">Abschlussquiz</a></div>
+      </section>
+      <section class="script-section">
+        <h4>Übungsaufgaben mit gestuften Hilfen</h4>
+        <div class="exercise-grid">
+      <article class="exercise-card">
+        <div class="exercise-type">Verständnisfrage</div>
+        <h4>Aufgabe 1</h4>
+        <p>Welche gemeinsame Grundidee haben Ultraschallprüfung und Michelson-Interferometer?</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Beides nutzt Wellen.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Eine Veränderung am Signal wird gemessen.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Daraus wird eine technische Größe abgeleitet.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Beide nutzen Wellen und interpretieren eine Signaländerung: Beim Ultraschall ist es Laufzeit/Echo, beim Interferometer Gangunterschied/Interferenz. Daraus werden Tiefe, Dicke oder Längenänderung berechnet.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Anwendungsaufgabe</div>
+        <h4>Aufgabe 2</h4>
+        <p>Wähle ein Verfahren: Rissverdacht in einer Schweißnaht. Begründe.</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Innenliegende Struktur.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Winkelprüfkopf möglich.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Laserinterferenz misst eher Wegänderungen.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Für Rissverdacht in einer Schweißnaht ist Ultraschallprüfung, oft mit Winkelprüfkopf, sinnvoll. Sie kann innere Reflektoren anzeigen und ihre Lage über Laufzeit und Geometrie eingrenzen.</p></details></div>
+      </article>
+      <article class="exercise-card">
+        <div class="exercise-type">Transfer</div>
+        <h4>Aufgabe 3</h4>
+        <p>Wähle ein Verfahren: Längenänderung von 4 µm. Begründe.</p>
+        <div class="hint-stack"><details class="hint"><summary>Hilfe 1: Denkimpuls</summary><p>Sehr kleine Wegänderung.</p></details><details class="hint"><summary>Hilfe 2: Formel/Strategie</summary><p>Fransenwechsel sind empfindlich.</p></details><details class="hint"><summary>Hilfe 3: Zwischenschritt</summary><p>Michelson-Formel passt.</p></details><details class="solution"><summary>Lösung anzeigen</summary><p>Für eine Längenänderung von wenigen Mikrometern passt ein Michelson-Interferometer, weil es Wegänderungen über Fransenwechsel sehr empfindlich sichtbar macht.</p></details></div>
+      </article></div>
+      </section>
+      <section class="script-section error-box">
+        <h4>Typische Fehler und wie du sie vermeidest</h4>
+        <ul><li>Verfahren ohne Prüffrage auswählen.</li><li>Lasertechnik für jede Messung als „genauer“ ansehen.</li><li>Formeln aus Ultraschall und Interferenz vermischen.</li></ul>
+      </section>
+      
+      <div class="chapter-check choice" data-explanation="Das ist der rote Faden: mechanische Echo-Laufzeit versus optische Interferenz.">
+        <h4>Mini-Selbstcheck</h4>
+        <p>Welche Zuordnung ist passend?</p>
+        <div class="answers"><button data-correct="true">Ultraschall: Laufzeit/Echo; Michelson: Gangunterschied/Interferenz.</button><button data-correct="false">Ultraschall: Fransenwechsel; Michelson: Rückwandecho.</button><button data-correct="false">Beide messen immer direkt die Temperatur.</button></div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+      <section class="script-section summary-box">
+        <h4>Kurze Zusammenfassung</h4>
+        <p>Du kannst beide Halbjahreshälften verbinden und Verfahren begründet auswählen.</p>
+        <details class="exit-ticket"><summary>Exit-Ticket / Reflexionsfrage</summary><p>Welche Formel ist für dich der wichtigste Anker des Halbjahrs, und warum?</p></details>
+        <p class="chapter-source"><b>Kapitelquelle:</b> DJP; LEIFIphysik Ultraschall und Interferometer; DGZfP; PTB.</p>
+      </section>
+    </article></div>
+      </div>
+    </section>
+    <section class="block" id="tools">
+      <div class="wrap">
+        <div class="section-head"><div><h2>Rechner und Simulationen</h2><p>Alle Werkzeuge laufen vollständig offline. Diagramme mit Koordinatensystem besitzen Achsentitel, Einheiten, Skalenwerte und gut lesbare Tick-Marks.</p></div></div>
+        <div class="tool-card">
+          <div class="tabs" role="tablist" aria-label="Werkzeug auswählen">
+            <button class="tab active" data-tab="wave">Wellenlänge</button>
+            <button class="tab" data-tab="tof">Laufzeit/Tiefe</button>
+            <button class="tab" data-tab="speed">Schallgeschwindigkeit</button>
+            <button class="tab" data-tab="ascan">A-Bild</button>
+            <button class="tab" data-tab="angle">Winkelprüfkopf</button>
+            <button class="tab" data-tab="michelson">Michelson</button>
+            <button class="tab" data-tab="medium">Medium/Δn</button>
+            <button class="tab" data-tab="uncertainty">Messunsicherheit</button>
+          </div>
+          <div class="tab-panel active" id="tool-wave">
+            <h3>Wellenlänge-Rechner</h3><p><span class="formula" role="math" aria-label="Lambda gleich c durch f"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>λ</mi><mo>=</mo><mfrac><mi>c</mi><mi>f</mi></mfrac></mrow></math></span> aus Schallgeschwindigkeit und Frequenz.</p>
+            <div class="form-grid"><label>Geschwindigkeit c in m/s <input id="waveC" type="number" value="5900" step="10"></label><label>Frequenz f in MHz <input id="waveF" type="number" value="5" step="0.1"></label></div><button class="primary" id="waveCalc">Berechnen</button><div class="result" id="waveResult"></div>
+          </div>
+          <div class="tab-panel" id="tool-tof">
+            <h3>Ultraschall: Tiefe oder Dicke aus Laufzeit</h3><p><span class="formula" role="math" aria-label="d gleich c mal Delta t durch 2"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>d</mi><mo>=</mo><mfrac><mrow><mi>c</mi><mo>·</mo><mrow><mi>Δ</mi><mi>t</mi></mrow></mrow><mn>2</mn></mfrac></mrow></math></span></p>
+            <div class="form-grid"><label>Schallgeschwindigkeit c in m/s <input id="tofC" type="number" value="5900" step="10"></label><label>Laufzeit Δt in µs <input id="tofT" type="number" value="3.4" step="0.1"></label></div><button class="primary" id="tofCalc">Berechnen</button><div class="result" id="tofResult"></div>
+          </div>
+          <div class="tab-panel" id="tool-speed">
+            <h3>Schallgeschwindigkeit aus bekannter Dicke</h3><p><span class="formula" role="math" aria-label="c gleich zwei d durch Delta t"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>c</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>d</mi></mrow><mrow><mi>Δ</mi><mi>t</mi></mrow></mfrac></mrow></math></span></p>
+            <div class="form-grid"><label>Dicke d in mm <input id="speedD" type="number" value="5.0" step="0.1"></label><label>Rückwandecho-Zeit Δt in µs <input id="speedT" type="number" value="1.9" step="0.1"></label></div><button class="primary" id="speedCalc">Berechnen</button><div class="result" id="speedResult"></div>
+          </div>
+          <div class="tab-panel" id="tool-ascan">
+            <h3>A-Bild-Simulator mit Achsen und Skala</h3><p>Verschiebe Fehlerecho und Rückwandecho. Die x-Achse zeigt Laufzeit Δt in µs, die y-Achse relative Amplitude in Prozent.</p>
+            <div class="form-grid"><label>c in m/s <input id="scanC" type="number" value="5300" step="10"></label><label>Fehlerecho Δt in µs <input id="scanF" type="range" min="0.4" max="7" step="0.1" value="1.1"></label><label>Rückwandecho Δt in µs <input id="scanB" type="range" min="1" max="8" step="0.1" value="2.7"></label><label>Signalrauschen <input id="scanN" type="range" min="0" max="1" step="0.05" value="0.16"></label></div>
+            <canvas id="ascan" width="1000" height="430" aria-label="A-Bild mit Achsentiteln, Skalenwerten und Tick-Marks"></canvas><div class="result" id="scanResult"></div>
+          </div>
+          <div class="tab-panel" id="tool-angle">
+            <h3>Winkelprüfkopf-Geometrie</h3><p>Ein einfaches Modell für Brechung und Lage: <span class="formula" role="math" aria-label="Snellius-Gesetz für Schall"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mfrac><mrow><mi>sin</mi><mo>(</mo><msub><mi>α</mi><mn>1</mn></msub><mo>)</mo></mrow><msub><mi>c</mi><mn>1</mn></msub></mfrac><mo>=</mo><mfrac><mrow><mi>sin</mi><mo>(</mo><msub><mi>α</mi><mn>2</mn></msub><mo>)</mo></mrow><msub><mi>c</mi><mn>2</mn></msub></mfrac></mrow></math></span> und <span class="formula" role="math" aria-label="Schallweg s gleich Tiefe d durch cos alpha"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>s</mi><mo>=</mo><mfrac><mi>d</mi><mrow><mi>cos</mi><mo>(</mo><mi>α</mi><mo>)</mo></mrow></mfrac></mrow></math></span>.</p>
+            <div class="form-grid"><label>c₁ Keil in m/s <input id="angC1" type="number" value="2730" step="10"></label><label>c₂ Werkstoff in m/s <input id="angC2" type="number" value="3230" step="10"></label><label>Einfallwinkel α₁ in Grad <input id="angA1" type="number" value="36" step="1"></label><label>Reflektortiefe d in mm <input id="angD" type="number" value="12" step="0.5"></label></div>
+            <button class="primary" id="angCalc">Berechnen</button><canvas id="angleCanvas" width="1000" height="430" aria-label="Winkelprüfkopf-Diagramm mit x-Achse Oberfläche in mm und y-Achse Tiefe in mm"></canvas><div class="result" id="angResult"></div>
+          </div>
+          <div class="tab-panel" id="tool-michelson">
+            <h3>Michelson: Fransenwechsel und Spiegelweg</h3><p><span class="formula" role="math" aria-label="Delta L gleich N mal Lambda durch 2"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mrow><mi>Δ</mi><mi>L</mi></mrow><mo>=</mo><mfrac><mrow><mi>N</mi><mo>·</mo><mi>λ</mi></mrow><mn>2</mn></mfrac></mrow></math></span>. Die Kurve zeigt relative Intensität über Spiegelweg.</p>
+            <div class="form-grid"><label>Laserwellenlänge λ in nm <input id="mLam" type="number" value="632.8" step="0.1"></label><label>Gezählte Fransenwechsel N <input id="mN" type="number" value="20" step="1"></label><label>Max. Spiegelweg für Diagramm in µm <input id="mMax" type="number" value="3" step="0.5"></label></div>
+            <button class="primary" id="mCalc">Berechnen</button><canvas id="michelsonCanvas" width="1000" height="430" aria-label="Michelson-Intensität über Spiegelweg mit Achsentiteln und Skalenwerten"></canvas><div class="result" id="mResult"></div>
+          </div>
+          <div class="tab-panel" id="tool-medium">
+            <h3>Brechungsindexänderung im Interferometer</h3><p>Einfaches Doppelpass-Modell: <span class="formula" role="math" aria-label="optische Wegänderung gleich zwei L mal Delta n"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mrow><mi>Δ</mi><msub><mi>s</mi><mi>opt</mi></msub></mrow><mo>=</mo><mn>2</mn><mi>L</mi><mo>·</mo><mrow><mi>Δ</mi><mi>n</mi></mrow></mrow></math></span> und <span class="formula" role="math" aria-label="N gleich optische Wegänderung durch Lambda"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>N</mi><mo>=</mo><mfrac><mrow><mi>Δ</mi><msub><mi>s</mi><mi>opt</mi></msub></mrow><mi>λ</mi></mfrac></mrow></math></span>.</p>
+            <div class="form-grid"><label>Küvettenlänge L in mm <input id="medL" type="number" value="10" step="0.5"></label><label>Brechungsindexänderung Δn <input id="medDn" type="number" value="0.00010" step="0.00001"></label><label>Wellenlänge λ in nm <input id="medLam" type="number" value="632.8" step="0.1"></label></div>
+            <button class="primary" id="medCalc">Berechnen</button><div class="result" id="medResult"></div>
+          </div>
+          <div class="tab-panel" id="tool-uncertainty">
+            <h3>Messunsicherheit: Mittelwert und Streuung</h3><p>Gib Messwerte mit Komma oder Punkt ein. Das Tool ist ein didaktischer Rechner, keine Normauswertung.</p>
+            <label>Messwerte in mm, getrennt durch Komma oder Semikolon <textarea id="uValues">5.1; 5.2; 5.1; 5.3; 5.2</textarea></label><button class="primary" id="uCalc">Auswerten</button><div class="result" id="uResult"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="block" id="vergleich"><div class="wrap"><div class="section-head"><div><h2>Vergleich: Ultraschall und Laserinterferenz</h2><p>Der rote Faden des Halbjahrs auf einen Blick.</p></div></div>
+<table class="compare">
+  <thead><tr><th>Frage</th><th>Ultraschalltechnik</th><th>Lasertechnik / Michelson</th></tr></thead>
+  <tbody>
+    <tr><td>Welche Welle?</td><td>Mechanische Schallwelle im Werkstoff.</td><td>Elektromagnetische Lichtwelle.</td></tr>
+    <tr><td>Typisches Signal</td><td>Echo, Laufzeit, Amplitude im A-Bild.</td><td>Interferenzmuster, Helligkeit, Fransenwechsel.</td></tr>
+    <tr><td>Zentrale Formel</td><td><span class="formula" role="math" aria-label="d gleich c mal Delta t durch 2"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>d</mi><mo>=</mo><mfrac><mrow><mi>c</mi><mo>·</mo><mrow><mi>Δ</mi><mi>t</mi></mrow></mrow><mn>2</mn></mfrac></mrow></math></span></td><td><span class="formula" role="math" aria-label="Delta L gleich N mal Lambda durch 2"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mrow><mi>Δ</mi><mi>L</mi></mrow><mo>=</mo><mfrac><mrow><mi>N</mi><mo>·</mo><mi>λ</mi></mrow><mn>2</mn></mfrac></mrow></math></span></td></tr>
+    <tr><td>Typische Anwendung</td><td>Wanddicke, Rückwandecho, Fehlerecho, Schweißnahtprüfung.</td><td>Kleine Längenänderungen, optische Wegänderungen, Brechungsindexänderungen.</td></tr>
+    <tr><td>Hauptfehlerquellen</td><td>Kopplung, c-Wert, Echoauswahl, Geometrie, Dämpfung.</td><td>Fransenzählen, Erschütterung, Luftbewegung, Justage, Lasersicherheit.</td></tr>
+  </tbody>
+</table></div></section>
+    <section class="block" id="abschlussquiz"><div class="wrap"><div class="section-head"><div><h2>Abschlussquiz mit Feedback</h2><p>Kurzer Selbstcheck über das gesamte Halbjahr. Es werden keine Daten versendet.</p></div></div><div class="quiz-grid"><div class="quiz-card choice" data-explanation="Die Laufzeit gehört zum doppelten Weg."><h4>1. Warum wird bei der Echo-Tiefenformel durch 2 geteilt?</h4><div class="answers"><button data-correct="true">Weil der Schall hin und zurück läuft.</button><button data-correct="false">Weil Ultraschall doppelt so laut ist.</button><button data-correct="false">Weil die Frequenz halbiert wird.</button></div><div class="feedback" aria-live="polite"></div></div><div class="quiz-card choice" data-explanation="Die Amplitude ist Signalstärke, keine alleinige Fehlergröße."><h4>2. Was bedeutet eine große Echoamplitude im A-Bild sicher?</h4><div class="answers"><button data-correct="true">Nur: Das empfangene Signal ist stark.</button><button data-correct="false">Der Riss ist garantiert groß.</button><button data-correct="false">Das Material ist sicher Aluminium.</button></div><div class="feedback" aria-live="polite"></div></div><div class="quiz-card choice" data-explanation="f beschreibt Schwingungen pro Sekunde."><h4>3. Welche Größe ist bei der Wellenformel c = λ · f die Frequenz?</h4><div class="answers"><button data-correct="true">f</button><button data-correct="false">λ</button><button data-correct="false">d</button></div><div class="feedback" aria-live="polite"></div></div><div class="quiz-card choice" data-explanation="Koppelmittel verdrängt Luft und verbessert Kopplung."><h4>4. Was macht Koppelmittel?</h4><div class="answers"><button data-correct="true">Es verbessert die Schallübertragung zwischen Prüfkopf und Werkstück.</button><button data-correct="false">Es ersetzt die Laufzeitmessung.</button><button data-correct="false">Es macht das Werkstück magnetisch.</button></div><div class="feedback" aria-live="polite"></div></div><div class="quiz-card choice" data-explanation="Der Lichtweg im Spiegelarm verlängert/verkürzt sich zweimal."><h4>5. Warum zählt Spiegelbewegung im Michelson doppelt?</h4><div class="answers"><button data-correct="true">Hinweg und Rückweg ändern sich.</button><button data-correct="false">Der Laser hat zwei Farben.</button><button data-correct="false">Das Gerät rechnet immer doppelt.</button></div><div class="feedback" aria-live="polite"></div></div><div class="quiz-card choice" data-explanation="Beim Michelson ist ΔL = Nλ/2."><h4>6. Welche Formel passt zur Spiegelverschiebung aus Fransenwechseln?</h4><div class="answers"><button data-correct="true">ΔL = N · λ / 2</button><button data-correct="false">c = 2d / Δt</button><button data-correct="false">λ = f / c</button></div><div class="feedback" aria-live="polite"></div></div><div class="quiz-card choice" data-explanation="Laserstrahlung kann Augen gefährden."><h4>7. Was ist bei Laserexperimenten eine grundlegende Schutzregel?</h4><div class="answers"><button data-correct="true">Nicht in den direkten oder reflektierten Strahl blicken.</button><button data-correct="false">Strahl auf Augenhöhe ausrichten.</button><button data-correct="false">Mit Lupe in den Strahl schauen.</button></div><div class="feedback" aria-live="polite"></div></div><div class="quiz-card choice" data-explanation="Ultraschall kann Wanddicke aus Laufzeit und Rückwandecho bestimmen."><h4>8. Welche Verfahrenswahl passt zu Wanddickenmessung an Metall?</h4><div class="answers"><button data-correct="true">Ultraschall-Impuls-Echo.</button><button data-correct="false">Fransenzählen am Michelson ohne Werkstückkontakt.</button><button data-correct="false">Nur Sichtprüfung.</button></div><div class="feedback" aria-live="polite"></div></div></div></div></section>
+    <section class="block" id="glossar"><div class="wrap"><div class="section-head"><div><h2>Glossar</h2><p>Zentrale Begriffe kurz und schülernah erklärt.</p></div></div><div class="glossary">
+      <div class="term"><b>A-Bild</b><span>Darstellung der Echoamplitude über der Laufzeit.</span></div>
+      <div class="term"><b>Amplitude</b><span>Signalhöhe; beim Ultraschall ein Hinweis auf die Stärke des empfangenen Echos.</span></div>
+      <div class="term"><b>Brechung</b><span>Richtungsänderung einer Welle beim Übergang zwischen Medien oder bei schrägem Eintritt.</span></div>
+      <div class="term"><b>Gangunterschied</b><span>Unterschied der optischen Wege zweier Lichtwellen bis zur Überlagerung.</span></div>
+      <div class="term"><b>Interferenz</b><span>Überlagerung von Wellen, die zu Verstärkung oder Abschwächung führt.</span></div>
+      <div class="term"><b>Koppelmittel</b><span>Gel, Öl oder Wasser zur besseren Schallübertragung zwischen Prüfkopf und Werkstück.</span></div>
+      <div class="term"><b>Normalprüfkopf</b><span>Prüfkopf, der näherungsweise senkrecht in das Werkstück einschallt.</span></div>
+      <div class="term"><b>Rückwandecho</b><span>Echo von der gegenüberliegenden Bauteilseite.</span></div>
+      <div class="term"><b>Ungänze</b><span>Unregelmäßigkeit im Material, etwa Riss, Lunker oder Lufteinschluss.</span></div>
+      <div class="term"><b>Wellenlänge λ</b><span>Abstand zwischen zwei gleichen Phasenpunkten einer Welle.</span></div>
+      <div class="term"><b>Winkelprüfkopf</b><span>Prüfkopf für schräge Einschallung, besonders nützlich bei bestimmten Schweißnahtprüfungen.</span></div>
+      <div class="term"><b>ZfP</b><span>Zerstörungsfreie Prüfung: prüfen, ohne das Werkstück unbrauchbar zu machen.</span></div>
+    </div></div></section>
+    <section class="block" id="quellen"><div class="wrap"><div class="section-head"><div><h2>Kompaktes Gesamtquellenverzeichnis</h2><p>Die Skript-App bleibt offline nutzbar. Die Adressen sind nur als Quellenangaben genannt.</p></div></div><div class="dark-card"><ol class="source-list">
+      <li>Hochgeladene didaktische Jahresplanung: C1 NF/FHR, Fach PHT, Kurshalbjahr 13.1, Kursthema „Zerstörungsfreie Werkstoffprüfung“; als Primärquelle verwendet und anonymisiert.</li>
+      <li>Vorhandene HTML-Lernlandkarte aus diesem Chat: „PHT 13.1 – Zerstörungsfreie Werkstoffprüfung“; als Struktur-, Design- und Interaktionsgrundlage verwendet.</li>
+      <li>Berufsbildung NRW: Bildungspläne Berufsfachschule/Fachoberschule Anlage C, Fachbereich Technik/Naturwissenschaften. Adresse: https://berufsbildung.nrw.de/</li>
+      <li>QUA-LiS NRW: Richtlinien und Lehrpläne für Staatlich geprüfte Physikalisch-technische Assistentinnen und Assistenten. Adresse: https://www.qua-lis.nrw.de/</li>
+      <li>BASS/APO-BK NRW: Anlage C, Bildungsgänge der Berufsfachschule; rechtlicher Orientierungsrahmen. Adresse: https://bass.schule.nrw/</li>
+      <li>DGZfP: Informationen zur zerstörungsfreien Prüfung und Ultraschallprüfung. Adresse: https://www.dgzfp.de/</li>
+      <li>LEIFIphysik: Werkstoffprüfung mit Ultraschall; Impuls-Echo-Grundlagen und Laufzeitbezug. Adresse: https://www.leifiphysik.de/</li>
+      <li>LEIFIphysik: Beugung, Interferenz und Interferometer-Aufgaben. Adresse: https://www.leifiphysik.de/</li>
+      <li>PTB: Längeneinheit und Längenmessung, Interferometrie als Messprinzip. Adresse: https://www.ptb.de/</li>
+      <li>Bundesamt für Strahlenschutz: Schutzmaßnahmen bei Laseranwendungen. Adresse: https://www.bfs.de/</li>
+    </ol></div></div></section>
+  </main>
+  <footer><div class="wrap"><p><b>Hinweis:</b> Dieses digitale Skript ersetzt keine Sicherheitsunterweisung und keine konkrete Betriebs- oder Versuchsanleitung. Im Labor gelten immer die Vorgaben der Lehrkraft, die Geräteanleitungen und die Sicherheitsregeln.</p></div></footer>
+  <script>
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const qsa = (sel, root=document) => [...root.querySelectorAll(sel)];
+    const fmt = (x,d=3) => Number.isFinite(x) ? x.toLocaleString('de-DE',{maximumFractionDigits:d,useGrouping:false}) : '—';
+    const esc = s => String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    function M(inner,label='Formel'){ return `<span class="formula" role="math" aria-label="${esc(label)}"><math xmlns="http://www.w3.org/1998/Math/MathML">${inner}</math></span>`; }
+    const mi = s => `<mi>${esc(s)}</mi>`, mn = s => `<mn>${esc(s)}</mn>`, mo = s => `<mo>${esc(s)}</mo>`, mt = s => `<mtext>${esc(s)}</mtext>`;
+    const row = (...xs) => `<mrow>${xs.join('')}</mrow>`, frac=(a,b)=>`<mfrac>${a}${b}</mfrac>`, sub=(a,b)=>`<msub>${a}${b}</msub>`, sup=(a,b)=>`<msup>${a}${b}</msup>`;
+    const unit = u => mt(' '+u), deltaT = () => row(mi('Δ'),mi('t')), deltaL = () => row(mi('Δ'),mi('L'));
+    function num(id){ const el=$(id); return el ? parseFloat(el.value.toString().replace(',','.')) : NaN; }
+    function valid(...xs){ return xs.every(x => Number.isFinite(x) && x > 0); }
+    function setResult(id, html){ const el=$(id); if(el) el.innerHTML = html; }
+    function calcWave(){ const c=num('#waveC'), fMHz=num('#waveF'); if(!valid(c,fMHz)) return setResult('#waveResult','Bitte positive Werte eingeben.'); const lamMm = c/(fMHz*1e6)*1000; setResult('#waveResult', `<b>Ergebnis:</b> ${M(row(mi('λ'),mo('='),mn(fmt(lamMm,4)),unit('mm')),`Lambda = ${fmt(lamMm,4)} mm`)}<br><small>Hohe Frequenz bedeutet kleinere Wellenlänge. Achte auf MHz zu Hz.</small>`); }
+    function calcTof(){ const c=num('#tofC'), t=num('#tofT'); if(!valid(c,t)) return setResult('#tofResult','Bitte positive Werte eingeben.'); const dmm=c*t/2000; setResult('#tofResult', `<b>Ergebnis:</b> ${M(row(mi('d'),mo('='),mn(fmt(dmm,3)),unit('mm')),`d = ${fmt(dmm,3)} mm`)}<br><small>Rechenregel: d in mm = c in m/s · t in µs / 2000.</small>`); }
+    function calcSpeed(){ const d=num('#speedD'), t=num('#speedT'); if(!valid(d,t)) return setResult('#speedResult','Bitte positive Werte eingeben.'); const c=2000*d/t; setResult('#speedResult', `<b>Ergebnis:</b> ${M(row(mi('c'),mo('='),mn(fmt(c,0)),unit('m/s')),`c = ${fmt(c,0)} m/s`)}<br><small>Vergleiche Materialwerte nur mit passender Wellenart und Messbedingung.</small>`); }
+    function drawAxes(ctx,W,H,opt){
+      const left=76, right=30, top=28, bottom=66, x0=left, y0=H-bottom, w=W-left-right, h=H-top-bottom;
+      ctx.clearRect(0,0,W,H); ctx.fillStyle='#071022'; ctx.fillRect(0,0,W,H);
+      ctx.strokeStyle='rgba(255,255,255,.35)'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x0,top); ctx.lineTo(x0,y0); ctx.lineTo(W-right,y0); ctx.stroke();
+      ctx.fillStyle='#a7b4ce'; ctx.font='14px system-ui'; ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillText(opt.xLabel, x0+w/2, H-34);
+      ctx.save(); ctx.translate(24, top+h/2); ctx.rotate(-Math.PI/2); ctx.fillText(opt.yLabel, 0, 0); ctx.restore();
+      ctx.font='12px system-ui'; ctx.strokeStyle='rgba(255,255,255,.14)'; ctx.lineWidth=1;
+      for(let i=0;i<=opt.xTicks;i++){ const v=opt.xMin+(opt.xMax-opt.xMin)*i/opt.xTicks; const x=x0+w*i/opt.xTicks; ctx.beginPath(); ctx.moveTo(x,y0); ctx.lineTo(x,top); ctx.stroke(); ctx.fillStyle='#a7b4ce'; ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillText(fmt(v,opt.xDigits ?? 0), x, y0+8); ctx.strokeStyle='rgba(255,255,255,.14)'; }
+      for(let i=0;i<=opt.yTicks;i++){ const v=opt.yMin+(opt.yMax-opt.yMin)*i/opt.yTicks; const y=y0-h*i/opt.yTicks; ctx.beginPath(); ctx.moveTo(x0,y); ctx.lineTo(W-right,y); ctx.stroke(); ctx.fillStyle='#a7b4ce'; ctx.textAlign='right'; ctx.textBaseline='middle'; ctx.fillText(fmt(v,opt.yDigits ?? 0), x0-10, y); ctx.strokeStyle='rgba(255,255,255,.14)'; }
+      return {left:x0,top,y0,w,h,x:v=>x0+w*(v-opt.xMin)/(opt.xMax-opt.xMin),y:v=>y0-h*(v-opt.yMin)/(opt.yMax-opt.yMin)};
+    }
+    function drawAScan(){
+      const canvas=$('#ascan'); if(!canvas) return; const ctx=canvas.getContext('2d'), W=canvas.width, H=canvas.height; const c=num('#scanC'); let f=num('#scanF'), b=num('#scanB'), n=num('#scanN'); if(!valid(c,f,b)) return; if(f>=b){ f=Math.max(0.4,b-0.2); $('#scanF').value=f; }
+      const ax=drawAxes(ctx,W,H,{xMin:0,xMax:8,yMin:0,yMax:100,xTicks:8,yTicks:5,xDigits:0,yDigits:0,xLabel:'Laufzeit Δt / µs',yLabel:'relative Amplitude / %'});
+      function pulse(t,amp,color,label){ const cx=ax.x(t); ctx.strokeStyle=color; ctx.lineWidth=4; ctx.beginPath(); for(let px=-42; px<=42; px++){ const y=ax.y(8 + amp*Math.exp(-(px*px)/180)*(1+.12*Math.sin(px*.6))); if(px===-42) ctx.moveTo(cx+px,y); else ctx.lineTo(cx+px,y); } ctx.stroke(); ctx.setLineDash([5,6]); ctx.strokeStyle='rgba(255,255,255,.35)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(cx,ax.y0); ctx.lineTo(cx,ax.top); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle=color; ctx.font='bold 14px system-ui'; ctx.textAlign='center'; ctx.fillText(label, cx, ax.top+8); }
+      ctx.strokeStyle='rgba(94,234,212,.45)'; ctx.lineWidth=1.2; ctx.beginPath(); for(let i=0;i<=600;i++){ const x=ax.left+ax.w*i/600; const t=8*i/600; const y=ax.y(8 + 5*n*Math.sin(i*.25)+4*n*Math.sin(i*.07)); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); } ctx.stroke();
+      pulse(0.35,85,'#00d5ff','Start'); pulse(f,55,'#7c3cff','Fehler'); pulse(b,72,'#5eead4','Rückwand');
+      const fd=c*f/2000, bd=c*b/2000; setResult('#scanResult', `<b>Fehlertiefe:</b> ${M(row(sub(mi('d'),mi('F')),mo('='),mn(fmt(fd,3)),unit('mm')),`dF = ${fmt(fd,3)} mm`)} · <b>Bauteildicke:</b> ${M(row(sub(mi('d'),mi('B')),mo('='),mn(fmt(bd,3)),unit('mm')),`dB = ${fmt(bd,3)} mm`)}`);
+    }
+    function calcAngle(){
+      const c1=num('#angC1'), c2=num('#angC2'), a1=num('#angA1'), d=num('#angD'); const canvas=$('#angleCanvas'); if(!valid(c1,c2,a1,d) || !canvas) return setResult('#angResult','Bitte positive Werte eingeben.');
+      const ratio=(c2/c1)*Math.sin(a1*Math.PI/180); const ctx=canvas.getContext('2d'), W=canvas.width,H=canvas.height; let msg=''; let a2=NaN;
+      if(ratio>=1){ msg='Mit diesen Werten entsteht im einfachen Modell kein gebrochener Strahl. Prüfe Winkel und Schallgeschwindigkeiten.'; a2=80; } else { a2=Math.asin(ratio)*180/Math.PI; }
+      const offset=d*Math.tan(a2*Math.PI/180), s=d/Math.cos(a2*Math.PI/180); const xmax=Math.max(20, offset*1.25), ymax=Math.max(20,d*1.25);
+      const ax=drawAxes(ctx,W,H,{xMin:0,xMax:xmax,yMin:0,yMax:ymax,xTicks:5,yTicks:5,xDigits:0,yDigits:0,xLabel:'Oberflächenabstand x / mm',yLabel:'Tiefe d / mm'});
+      // flip y direction for depth: draw depth downward from top surface y=0 at ax.y(0) currently bottom. Use mapping manually with top line
+      ctx.strokeStyle='rgba(255,255,255,.55)'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(ax.left,ax.top); ctx.lineTo(ax.left+ax.w,ax.top); ctx.stroke(); ctx.fillStyle='#a7b4ce'; ctx.textAlign='left'; ctx.fillText('Oberfläche', ax.left+8, ax.top+8);
+      const x0=ax.left+30, ySurf=ax.top; const x1=ax.left+30+ax.w*(offset/xmax), y1=ax.top+ax.h*(d/ymax);
+      ctx.strokeStyle='#00d5ff'; ctx.lineWidth=5; ctx.beginPath(); ctx.moveTo(x0,ySurf); ctx.lineTo(x1,y1); ctx.stroke(); ctx.fillStyle='#7c3cff'; ctx.beginPath(); ctx.arc(x1,y1,8,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#e8f0ff'; ctx.font='bold 14px system-ui'; ctx.textAlign='center'; ctx.fillText('Reflektor', x1, y1-26);
+      setResult('#angResult', msg ? `<b>Hinweis:</b> ${msg}` : `<b>Gebrochener Winkel:</b> ${M(row(sub(mi('α'),mn('2')),mo('='),mn(fmt(a2,1)),mt('°')),`alpha2 = ${fmt(a2,1)} Grad`)} · <b>Schallweg:</b> ${M(row(mi('s'),mo('='),mn(fmt(s,2)),unit('mm')),`s = ${fmt(s,2)} mm`)} · <b>Oberflächenabstand:</b> ${M(row(mi('x'),mo('='),mn(fmt(offset,2)),unit('mm')),`x = ${fmt(offset,2)} mm`)}`);
+    }
+    function calcMichelson(){
+      const lam=num('#mLam'), N=num('#mN'), max=num('#mMax'); if(!valid(lam,N,max)) return setResult('#mResult','Bitte positive Werte eingeben.'); const dnm=N*lam/2, dum=dnm/1000; setResult('#mResult', `<b>Spiegelverschiebung:</b> ${M(row(deltaL(),mo('='),mn(fmt(dum,4)),unit('µm'),mo('='),mn(fmt(dnm,1)),unit('nm')),`Delta L = ${fmt(dum,4)} µm`)}`);
+      const canvas=$('#michelsonCanvas'); if(!canvas) return; const ctx=canvas.getContext('2d'), W=canvas.width,H=canvas.height; const ax=drawAxes(ctx,W,H,{xMin:0,xMax:max,yMin:0,yMax:100,xTicks:6,yTicks:5,xDigits:2,yDigits:0,xLabel:'Spiegelweg ΔL / µm',yLabel:'relative Intensität / %'}); ctx.strokeStyle='#00d5ff'; ctx.lineWidth=3; ctx.beginPath(); for(let i=0;i<=800;i++){ const xum=max*i/800; const phase=2*Math.PI*(2*xum*1000/lam); const I=50+50*Math.cos(phase); const x=ax.x(xum), y=ax.y(I); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); } ctx.stroke(); }
+    function calcMedium(){ const L=num('#medL'), dn=num('#medDn'), lam=num('#medLam'); if(!valid(L,Math.abs(dn),lam)) return setResult('#medResult','Bitte L und λ positiv eingeben; Δn darf klein sein.'); const ds_nm=2*L*1e6*dn; const N=ds_nm/lam; setResult('#medResult', `<b>Optische Wegänderung:</b> ${M(row(mi('Δ'),sub(mi('s'),mi('opt')),mo('='),mn(fmt(ds_nm,1)),unit('nm')),`optische Wegänderung ${fmt(ds_nm,1)} nm`)} · <b>Fransenverschiebung:</b> ${M(row(mi('N'),mo('='),mn(fmt(N,2))),`N = ${fmt(N,2)}`)}<br><small>Vorzeichen und Doppelpass müssen zum konkreten Aufbau passen.</small>`); }
+    function calcUncertainty(){ const raw=$('#uValues')?.value || ''; const vals=raw.split(/[;,\s]+/).map(s=>parseFloat(s.replace(',','.'))).filter(Number.isFinite); if(vals.length<2) return setResult('#uResult','Bitte mindestens zwei Messwerte eingeben.'); const n=vals.length, mean=vals.reduce((a,b)=>a+b,0)/n; const variance=vals.reduce((a,b)=>a+(b-mean)*(b-mean),0)/(n-1); const sd=Math.sqrt(variance); const min=Math.min(...vals), max=Math.max(...vals); const rel=sd/Math.abs(mean)*100; setResult('#uResult', `<b>n:</b> ${n} · <b>Mittelwert:</b> ${M(row(mi('x'),mo('≈'),mn(fmt(mean,3)),unit('mm')),`Mittelwert ${fmt(mean,3)} mm`)} · <b>Streuung:</b> ${M(row(mi('s'),mo('≈'),mn(fmt(sd,3)),unit('mm')),`Streuung ${fmt(sd,3)} mm`)} · <b>Spanne:</b> ${fmt(min,3)} mm bis ${fmt(max,3)} mm · <b>relative Streuung:</b> ${fmt(rel,2)} %`); }
+    function initChoices(){ qsa('.choice').forEach(card=>{ qsa('.answers button',card).forEach(btn=>btn.addEventListener('click',()=>{ const ok=btn.dataset.correct==='true'; const fb=$('.feedback',card); fb.className='feedback '+(ok?'ok':'no'); fb.textContent=(ok?'Richtig. ':'Noch nicht. ')+(card.dataset.explanation||''); })); }); }
+    function initTabs(){ qsa('.tab').forEach(btn=>btn.addEventListener('click',()=>{ qsa('.tab').forEach(b=>b.classList.remove('active')); qsa('.tab-panel').forEach(p=>p.classList.remove('active')); btn.classList.add('active'); const panel=$('#tool-'+btn.dataset.tab); if(panel) panel.classList.add('active'); drawAScan(); calcAngle(); calcMichelson(); })); }
+    function updateProgress(){ const boxes=qsa('.done'), checked=boxes.filter(b=>b.checked).length; const total=boxes.length; const pct=total?checked/total*100:0; $('#progressBar').style.width=pct+'%'; $('#progressText').textContent=`${checked} von ${total} Kapiteln markiert`; }
+    function initProgress(){ qsa('.done').forEach(cb=>{ const key='halbjahr-pht13-'+cb.dataset.id; cb.checked=localStorage.getItem(key)==='1'; cb.addEventListener('change',()=>{localStorage.setItem(key,cb.checked?'1':'0'); updateProgress();}); }); updateProgress(); }
+    function initSearch(){ const input=$('#chapterSearch'); if(!input) return; input.addEventListener('input',e=>{ const q=e.target.value.trim().toLowerCase(); qsa('.chapter').forEach(ch=>{ const hit=!q || ch.textContent.toLowerCase().includes(q); ch.classList.toggle('hidden',!hit); }); }); }
+    function initOpenClose(){ $('#openAllDetails')?.addEventListener('click',()=>qsa('details').forEach(d=>d.open=true)); $('#closeAllDetails')?.addEventListener('click',()=>qsa('details').forEach(d=>d.open=false)); }
+    function initToolLinks(){ qsa('.toolchip[href^="#tool-"]').forEach(a=>a.addEventListener('click',()=>{ const tabName=a.getAttribute('href').replace('#tool-',''); const tab=$(`.tab[data-tab="${tabName}"]`); if(tab) tab.click(); })); }
+    let openedBeforePrint=[]; window.addEventListener('beforeprint',()=>{ openedBeforePrint=qsa('details').filter(d=>d.open); qsa('details').forEach(d=>d.open=true); }); window.addEventListener('afterprint',()=>{ qsa('details').forEach(d=>d.open=false); openedBeforePrint.forEach(d=>d.open=true); });
+    ['#waveC','#waveF'].forEach(id=>$(id)?.addEventListener('input',calcWave)); $('#waveCalc')?.addEventListener('click',calcWave);
+    ['#tofC','#tofT'].forEach(id=>$(id)?.addEventListener('input',calcTof)); $('#tofCalc')?.addEventListener('click',calcTof);
+    ['#speedD','#speedT'].forEach(id=>$(id)?.addEventListener('input',calcSpeed)); $('#speedCalc')?.addEventListener('click',calcSpeed);
+    ['#scanC','#scanF','#scanB','#scanN'].forEach(id=>$(id)?.addEventListener('input',drawAScan));
+    ['#angC1','#angC2','#angA1','#angD'].forEach(id=>$(id)?.addEventListener('input',calcAngle)); $('#angCalc')?.addEventListener('click',calcAngle);
+    ['#mLam','#mN','#mMax'].forEach(id=>$(id)?.addEventListener('input',calcMichelson)); $('#mCalc')?.addEventListener('click',calcMichelson);
+    ['#medL','#medDn','#medLam'].forEach(id=>$(id)?.addEventListener('input',calcMedium)); $('#medCalc')?.addEventListener('click',calcMedium);
+    $('#uValues')?.addEventListener('input',calcUncertainty); $('#uCalc')?.addEventListener('click',calcUncertainty);
+    document.addEventListener('DOMContentLoaded',()=>{ initChoices(); initTabs(); initProgress(); initSearch(); initOpenClose(); initToolLinks(); calcWave(); calcTof(); calcSpeed(); drawAScan(); calcAngle(); calcMichelson(); calcMedium(); calcUncertainty(); });
+  </script>
+</body>
+</html>
